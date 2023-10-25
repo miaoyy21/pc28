@@ -13,8 +13,14 @@ type Config struct {
 	Cookie    string `json:"cookie"`
 	UserAgent string `json:"user_agent"`
 
+	IssueURL   string `json:"issue_url"`
+	RiddleURL  string `json:"riddle_url"`
+	GoldURL    string `json:"gold_url"`
+	BettingURL string `json:"betting_url"`
+
 	UserId    string `json:"user_id"`
 	Token     string `json:"token"`
+	PType     string `json:"p_type"`
 	Unix      string `json:"unix"`
 	KeyCode   string `json:"key_code"`
 	DeviceId  string `json:"device_id"`

@@ -67,11 +67,19 @@ func run() {
 		}
 	}()
 
-	sleepTo(30.0 + 5*rand.Float64())
+	sleepTo(30.0 + 10*rand.Float64())
+	issue, err := qIssue()
+	if err != nil {
+		log.Printf("ERR-01 : %s \n", err)
+		return
+	}
+
 	log.Println("【TODO】 执行查询所有托管账户金额 >>> ")
 
 	sleepTo(54.0)
 	log.Println("【TODO】 执行查询本账户权重，并执行所有托管账户投注 >>> ")
+
+	time.Sleep(time.Duration(20*rand.Float64()) * time.Second)
 }
 
 func sleepTo(s0 float64) {

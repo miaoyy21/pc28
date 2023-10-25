@@ -21,9 +21,10 @@ service GoldService {
 }
 
 message GoldRequest {
-  string origin = 11;
-  string cookie = 12;
-  string userAgent = 13;
+  string url = 11;
+  string origin = 12;
+  string cookie = 13;
+  string userAgent = 14;
 
   string unix = 31;
   string keyCode = 32;
@@ -46,9 +47,10 @@ service BettingService {
 }
 
 message BettingRequest {
-  string origin = 11;
-  string cookie = 12;
-  string userAgent = 13;
+  string url = 11;
+  string origin = 12;
+  string cookie = 13;
+  string userAgent = 14;
 
   string issue = 21;
   map<int32, int32> numbers = 22;
