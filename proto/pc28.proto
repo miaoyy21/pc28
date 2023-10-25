@@ -1,0 +1,69 @@
+syntax = "proto3";
+package proto;
+option go_package = ".;pb";
+
+service SearchService {
+  rpc Search(SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+  string request = 1;
+}
+
+message SearchResponse {
+  string response = 1;
+}
+
+
+// Gold
+service GoldService {
+  rpc Gold(GoldRequest) returns (GoldResponse) {}
+}
+
+message GoldRequest {
+  string origin = 11;
+  string cookie = 12;
+  string userAgent = 13;
+
+  string unix = 31;
+  string keyCode = 32;
+  string pType = 33;
+  string deviceId = 34;
+  string channelId = 35;
+  string userId = 36;
+  string token = 37;
+}
+
+message GoldResponse {
+  bool success = 1;
+  optional string msg = 2;
+  optional string gold = 3;
+}
+
+// Betting
+service BettingService {
+  rpc Betting(BettingRequest) returns (BettingResponse) {}
+}
+
+message BettingRequest {
+  string origin = 11;
+  string cookie = 12;
+  string userAgent = 13;
+
+  string issue = 21;
+  map<int32, int32> numbers = 22;
+
+  string unix = 31;
+  string keyCode = 32;
+  string pType = 33;
+  string deviceId = 34;
+  string channelId = 35;
+  string userId = 36;
+  string token = 37;
+}
+
+message BettingResponse {
+  bool success = 1;
+  optional string msg = 2;
+}
+

@@ -1,0 +1,12 @@
+{
+  "dsn": "root:root@tcp(localhost:3306)/pc28?charset=utf8mb4&collation=utf8mb4_general_ci&loc=Local&parseTime=true",
+  "origin": "***1***",
+  "cookie": "***2***",
+  "user_agent": "***3***",
+  "user_id": "***4***",
+  "token": "***5***",
+  "unix": "***6***",
+  "key_code": "***7***",
+  "device_id": "***8***",
+  "channel_id": "***9***"
+}
