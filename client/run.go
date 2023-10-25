@@ -2,6 +2,7 @@ package client
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"math/rand"
@@ -32,11 +33,7 @@ func Run() error {
 		time.Sleep(30 * time.Second)
 	}
 
-	s0, n0 := 30.0, time.Now()
-	d0 := n0.Sub(n0.Truncate(time.Minute))
-
-	log.Printf("在 %.4f 秒后开始运行 ... \n", s0-d0.Seconds())
-	time.Sleep(time.Second * time.Duration(s0-d0.Seconds()))
+	sleepTo(30)
 	go run()
 
 	t := time.NewTicker(time.Minute)
@@ -46,6 +43,11 @@ func Run() error {
 	for {
 		select {
 		case <-t.C:
+			// 长时间运行时，可能会产生时间偏移，自动调整
+			d0 := time.Now().Sub(time.Now().Truncate(time.Minute))
+			t.Reset(time.Duration(90-d0.Seconds()) * time.Second)
+			log.Printf("【重置时钟】偏移量%.2f秒 ...\n", 30-d0.Seconds())
+
 			go run()
 		}
 	}
@@ -56,10 +58,28 @@ func Run() error {
 	//}
 	//
 	//fmt.Println(resp.GetResponse())
-	return nil
 }
 
 func run() {
-	time.Sleep(time.Duration(rand.Float64()*5) * time.Second)
+	defer func() {
+		if err := recover(); err != nil {
+			log.Printf("【存在异常】: %s \n", err)
+		}
+	}()
+
+	sleepTo(30.0 + 5*rand.Float64())
 	log.Println("【TODO】 执行查询所有托管账户金额 >>> ")
+
+	sleepTo(54.0)
+	log.Println("【TODO】 执行查询本账户权重，并执行所有托管账户投注 >>> ")
+}
+
+func sleepTo(s0 float64) {
+	d0 := time.Now().Sub(time.Now().Truncate(time.Minute))
+	if s0-d0.Seconds() < 0 {
+		panic(fmt.Sprintf("目标第%.2f秒小于当前第%.2f秒", s0, d0.Seconds()))
+	}
+
+	log.Printf("等待%.2f秒后继续执行 ... \n", s0-d0.Seconds())
+	time.Sleep(time.Second * time.Duration(s0-d0.Seconds()))
 }
