@@ -18,7 +18,7 @@ func (s *SearchService) Search(ctx context.Context, r *pb.SearchRequest) (*pb.Se
 	return &pb.SearchResponse{Response: r.GetRequest() + " Server " + time.Now().Format(time.RFC3339Nano)}, nil
 }
 
-func Run() error {
+func Run(targetGold, targetBetting string) error {
 	server := grpc.NewServer()
 	pb.RegisterSearchServiceServer(server, &SearchService{})
 

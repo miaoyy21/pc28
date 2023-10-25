@@ -17,6 +17,11 @@ func init() {
 	flag.Parse()
 }
 
+const (
+	targetGold    = ":9001"
+	targetBetting = ":9002"
+)
+
 func main() {
 	if sFlag == cFlag {
 		flag.Usage()
@@ -25,14 +30,14 @@ func main() {
 
 	if sFlag {
 		log.Printf("以【服务端】模式运行 ...\n")
-		if err := server.Run(); err != nil {
+		if err := server.Run(targetGold, targetBetting); err != nil {
 			log.Fatalf("server.Run() Failure : %s \n", err)
 		}
 		return
 	}
 
 	log.Printf("以【客户端】模式运行 ...\n")
-	if err := client.Run(); err != nil {
+	if err := client.Run(targetGold, targetBetting); err != nil {
 		log.Fatalf("client.Run() Failure : %s \n", err)
 	}
 }

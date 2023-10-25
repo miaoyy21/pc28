@@ -36,9 +36,7 @@ message GoldRequest {
 }
 
 message GoldResponse {
-  bool success = 1;
-  optional string msg = 2;
-  optional string gold = 3;
+  int64 gold = 1;
 }
 
 // Betting
@@ -53,7 +51,7 @@ message BettingRequest {
   string userAgent = 14;
 
   string issue = 21;
-  map<int32, int32> numbers = 22;
+  map<int32, int32> bets = 22;
 
   string unix = 31;
   string keyCode = 32;
@@ -65,7 +63,5 @@ message BettingRequest {
 }
 
 message BettingResponse {
-  bool success = 1;
-  optional string msg = 2;
 }
 
