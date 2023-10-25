@@ -17,10 +17,8 @@ func init() {
 	flag.Parse()
 }
 
-const (
-	targetGold    = ":9001"
-	targetBetting = ":9002"
-)
+const targetGold = ":9001"
+const targetBetting = ":9002"
 
 func main() {
 	if sFlag == cFlag {
