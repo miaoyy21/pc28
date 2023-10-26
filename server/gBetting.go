@@ -62,11 +62,11 @@ func (s *BettingService) Betting(ctx context.Context, r *pb.BettingRequest) (*pb
 	return &pb.BettingResponse{}, nil
 }
 
-func gBetting(target string) {
+func gBetting(port string) {
 	server := grpc.NewServer()
 	pb.RegisterBettingServiceServer(server, &BettingService{})
 
-	l, err := net.Listen("tcp", target)
+	l, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
 		log.Fatalf("Gold net.Listen() Failure : %s \n", err.Error())
 	}

@@ -65,11 +65,11 @@ func (s *GoldService) Gold(ctx context.Context, r *pb.GoldRequest) (*pb.GoldResp
 	return &pb.GoldResponse{Gold: int64(iGold)}, nil
 }
 
-func gGold(target string) {
+func gGold(port string) {
 	server := grpc.NewServer()
 	pb.RegisterGoldServiceServer(server, &GoldService{})
 
-	l, err := net.Listen("tcp", target)
+	l, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
 		log.Fatalf("Gold net.Listen() Failure : %s \n", err.Error())
 	}

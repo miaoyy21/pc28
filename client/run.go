@@ -6,10 +6,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"math/rand"
+	"net"
 	"time"
 )
 
-func Run(targetGold, targetBetting string) error {
+func Run(portGold, portBetting string) error {
 	// 配置文件
 	if err := InitConfig(); err != nil {
 		return err
@@ -34,7 +35,7 @@ func Run(targetGold, targetBetting string) error {
 	}
 
 	sleepTo(30)
-	go run(db, targetGold, targetBetting)
+	go run(db, portGold, portBetting)
 
 	t := time.NewTicker(time.Minute)
 	defer t.Stop()
@@ -48,12 +49,12 @@ func Run(targetGold, targetBetting string) error {
 			t.Reset(time.Duration(90-d0.Seconds()) * time.Second)
 			log.Printf("【重置时钟】偏移量%.2f秒 ...\n", 30-d0.Seconds())
 
-			go run(db, targetGold, targetBetting)
+			go run(db, portGold, portBetting)
 		}
 	}
 }
 
-func run(db *sql.DB, targetGold, targetBetting string) {
+func run(db *sql.DB, portGold, portBetting string) {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Printf("【Exception】: %s \n", err)
@@ -86,7 +87,7 @@ func run(db *sql.DB, targetGold, targetBetting string) {
 	}
 
 	for _, user := range users {
-		gold, err := gGold(targetGold, user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token)
+		gold, err := gGold(net.JoinHostPort(user.Host, portGold), user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token)
 		if err != nil {
 			log.Printf("【ERR-22】: [%s] %s \n", user.UserId, err)
 			return
@@ -128,7 +129,7 @@ func run(db *sql.DB, targetGold, targetBetting string) {
 			}
 		}
 
-		if err := gBetting(targetBetting, fmt.Sprintf("%d", issue+1), bets,
+		if err := gBetting(net.JoinHostPort(user.Host, portBetting), fmt.Sprintf("%d", issue+1), bets,
 			user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token); err != nil {
 			log.Printf("【ERR-41】: %s \n", err)
 			return

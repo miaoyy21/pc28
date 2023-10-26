@@ -17,8 +17,8 @@ func init() {
 	flag.Parse()
 }
 
-const targetGold = ":9001"
-const targetBetting = ":9002"
+const portGold = "9001"
+const portBetting = "9002"
 
 func main() {
 	if sFlag == cFlag {
@@ -28,13 +28,13 @@ func main() {
 
 	if sFlag {
 		log.Printf("以【服务端】模式运行 ...\n")
-		server.Run(targetGold, targetBetting)
+		server.Run(portGold, portBetting)
 
 		return
 	}
 
 	log.Printf("以【客户端】模式运行 ...\n")
-	if err := client.Run(targetGold, targetBetting); err != nil {
+	if err := client.Run(portGold, portBetting); err != nil {
 		log.Fatalf("client.Run() Failure : %s \n", err)
 	}
 }
