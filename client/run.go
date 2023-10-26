@@ -51,8 +51,16 @@ func run(db *sql.DB, portGold, portBetting string) {
 		}
 
 		user.Gold = gold
-		if _, err := db.Exec("UPDATE users SET gold = ?,update_at = ? WHERE user_id = ?", gold, time.Now().Format("2006-01-02 15:04"), user.UserId); err != nil {
+
+		// Update User's Gold
+		if _, err := db.Exec("UPDATE user SET gold = ?, update_at = ? WHERE user_id = ?", gold, time.Now().Format("2006-01-02 15:04"), user.UserId); err != nil {
 			log.Printf("【ERR-23】: [%s] %s \n", user.UserId, err)
+			return
+		}
+
+		// Insert User's Log
+		if _, err := db.Exec("INSERT INTO user_log(user_id, time_at, gold) VALUES (?,?,?)", user.UserId, time.Now().Format("2006-01-02 15:04"), gold); err != nil {
+			log.Printf("【ERR-24】: [%s] %s \n", user.UserId, err)
 			return
 		}
 	}
@@ -98,7 +106,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 				user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token); err != nil {
 				log.Printf("【ERR-41】: %s \n", err)
 
-				if _, err := db.Exec("UPDATE users SET msg = ? WHERE user_id = ?", err.Error(), user.UserId); err != nil {
+				if _, err := db.Exec("UPDATE user SET msg = ? WHERE user_id = ?", err.Error(), user.UserId); err != nil {
 					log.Printf("【ERR-42】: [%s] %s \n", user.UserId, err)
 					return
 				}
@@ -106,7 +114,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 				return
 			}
 
-			if _, err := db.Exec("UPDATE users SET msg = ? WHERE user_id = ?", "OK", user.UserId); err != nil {
+			if _, err := db.Exec("UPDATE user SET msg = ? WHERE user_id = ?", "OK", user.UserId); err != nil {
 				log.Printf("【ERR-43】: [%s] %s \n", user.UserId, err)
 				return
 			}
