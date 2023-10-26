@@ -2,10 +2,7 @@ package server
 
 import (
 	"context"
-	"net"
 	"time"
-
-	"google.golang.org/grpc"
 
 	pb "pc28/proto"
 )
@@ -18,18 +15,8 @@ func (s *SearchService) Search(ctx context.Context, r *pb.SearchRequest) (*pb.Se
 	return &pb.SearchResponse{Response: r.GetRequest() + " Server " + time.Now().Format(time.RFC3339Nano)}, nil
 }
 
-func Run(targetGold, targetBetting string) error {
-	server := grpc.NewServer()
-	pb.RegisterSearchServiceServer(server, &SearchService{})
+func Run(targetGold, targetBetting string) {
+	go gGold(targetGold)
 
-	lis, err := net.Listen("tcp", ":9001")
-	if err != nil {
-		return err
-	}
-
-	if err := server.Serve(lis); err != nil {
-		return err
-	}
-
-	return nil
+	gBetting(targetBetting)
 }

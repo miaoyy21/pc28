@@ -28,9 +28,8 @@ func main() {
 
 	if sFlag {
 		log.Printf("以【服务端】模式运行 ...\n")
-		if err := server.Run(targetGold, targetBetting); err != nil {
-			log.Fatalf("server.Run() Failure : %s \n", err)
-		}
+		server.Run(targetGold, targetBetting)
+
 		return
 	}
 
