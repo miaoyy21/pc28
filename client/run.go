@@ -56,7 +56,7 @@ func Run(targetGold, targetBetting string) error {
 func run(db *sql.DB, targetGold, targetBetting string) {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Printf("Exception : %s \n", err)
+			log.Printf("【Exception】: %s \n", err)
 		}
 	}()
 
@@ -65,7 +65,7 @@ func run(db *sql.DB, targetGold, targetBetting string) {
 	log.Println("【1】执行查询本账号的最新期数 ... ")
 	issue, total, err := qIssueGold()
 	if err != nil {
-		log.Printf("ERR-11 : %s \n", err)
+		log.Printf("【ERR-11】: %s \n", err)
 		return
 	}
 	log.Printf("【1】本账号的最新期数为 %d ... \n", issue)
@@ -81,20 +81,20 @@ func run(db *sql.DB, targetGold, targetBetting string) {
 
 	users, err := dQueryUsers(db)
 	if err != nil {
-		log.Printf("ERR-21 : %s \n", err)
+		log.Printf("【ERR-21】: %s \n", err)
 		return
 	}
 
 	for _, user := range users {
 		gold, err := gGold(targetGold, user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token)
 		if err != nil {
-			log.Printf("ERR-22 : [%s] %s \n", user.UserId, err)
+			log.Printf("【ERR-22】: [%s] %s \n", user.UserId, err)
 			return
 		}
 
 		user.Gold = gold
 		if _, err := db.Exec("UPDATE users SET gold = ? WHERE user_id = ?", gold, user.UserId); err != nil {
-			log.Printf("ERR-23 : [%s] %s \n", user.UserId, err)
+			log.Printf("【ERR-23】: [%s] %s \n", user.UserId, err)
 			return
 		}
 	}
@@ -105,7 +105,7 @@ func run(db *sql.DB, targetGold, targetBetting string) {
 	log.Println("【3】执行查询本账户下期权重值 ... ")
 	rds, err := qRiddle(fmt.Sprintf("%d", issue+1))
 	if err != nil {
-		log.Printf("ERR-31 : %s \n", err)
+		log.Printf("【ERR-31】: %s \n", err)
 		return
 	}
 	log.Printf("【3】TODO 查询本账户下期权重值 %#v ... \n", rds)
@@ -130,7 +130,7 @@ func run(db *sql.DB, targetGold, targetBetting string) {
 
 		if err := gBetting(targetBetting, fmt.Sprintf("%d", issue+1), bets,
 			user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token); err != nil {
-			log.Printf("ERR-41 : %s \n", err)
+			log.Printf("【ERR-41】: %s \n", err)
 			return
 		}
 	}
