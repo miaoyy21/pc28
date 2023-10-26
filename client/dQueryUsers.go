@@ -24,6 +24,7 @@ func dQueryUsers(db *sql.DB) ([]*User, error) {
 	query := `
 		SELECT user_name, host, sigma, cookie, user_agent, unix, key_code, device_id, user_id, token, gold
 		FROM users
+		WHERE is_valid = 1
 		ORDER BY gold DESC
 	`
 

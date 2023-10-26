@@ -62,9 +62,9 @@ func ofM1Gold(g int64) int64 {
 		return g / 200
 	} else if g < 1<<28 {
 		// 268435456
-		return g / 225
-	} else {
 		return g / 250
+	} else {
+		return g / 300
 	}
 }
 
