@@ -44,27 +44,27 @@ var STDS1000 = map[int32]int32{
 func ofM1Gold(g int64) int64 {
 	if g < 1<<22 {
 		// 4194304
-		return g / 75
+		return g / 40
 	} else if g < 1<<23 {
 		// 8388608
-		return g / 100
+		return g / 50
 	} else if g < 1<<24 {
 		// 16777216
-		return g / 125
+		return g / 60
 	} else if g < 1<<25 {
 		// 33554432
-		return g / 150
+		return g / 75
 	} else if g < 1<<26 {
 		// 67108864
-		return g / 175
+		return g / 95
 	} else if g < 1<<27 {
 		// 134217728
-		return g / 200
+		return g / 120
 	} else if g < 1<<28 {
 		// 268435456
-		return g / 250
+		return g / 150
 	} else {
-		return g / 300
+		return g / 200
 	}
 }
 

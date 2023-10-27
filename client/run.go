@@ -18,15 +18,18 @@ func run(db *sql.DB, portGold, portBetting string) {
 		}
 	}()
 
+	log.Println("//*********************************** 定时任务开始执行 ***********************************//")
+
 	// 第一步 查询本账号的最新期数
 	sleepTo(30.0 + 5*rand.Float64())
-	log.Println("【1】执行查询本账号的最新期数 ... ")
+	log.Println("查询本账号的最新期数 >>> ")
+
 	issue, total, err := qIssueGold()
 	if err != nil {
 		log.Printf("【ERR-11】: %s \n", err)
 		return
 	}
-	log.Printf("【1】本账号的最新期数为 %d ... \n", issue)
+	log.Printf("最新开奖期数【%d】 ... \n", issue)
 
 	mrx := 1.0
 	if total < 1<<27 {
@@ -35,7 +38,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 
 	// 第二步 查询托管账户的金额
 	sleepTo(40.0 + 5*rand.Float64())
-	log.Println("【2】执行查询托管账户的金额 ... ")
+	log.Println("查询托管账户的资金余额 >>> ")
 
 	users, err := dQueryUsers(db)
 	if err != nil {
@@ -43,7 +46,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 		return
 	}
 
-	for _, user := range users {
+	for idx, user := range users {
 		gold, err := gGold(net.JoinHostPort(user.Host, portGold), user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token)
 		if err != nil {
 			log.Printf("【ERR-22】: [%s] %s \n", user.UserId, err)
@@ -63,42 +66,55 @@ func run(db *sql.DB, portGold, portBetting string) {
 			log.Printf("【ERR-24】: [%s] %s \n", user.UserId, err)
 			return
 		}
-	}
-	log.Printf("【2】TODO 查询托管账户的金额 %#v ... \n", users)
 
-	// 第三步 查询本账户下期权重值
+		log.Printf("【%02d】托管账户%q的资金余额 %d ... \n", idx+1, user.UserName, user.Gold)
+	}
+
+	// 第三步 查询本账户的权重值
 	sleepTo(53.50)
-	log.Println("【3】执行查询本账户下期权重值 ... ")
+	log.Println("查询本账户的权重值 >>> ")
+
 	rds, err := qRiddle(fmt.Sprintf("%d", issue+1))
 	if err != nil {
 		log.Printf("【ERR-31】: %s \n", err)
 		return
 	}
-	log.Printf("【3】TODO 查询本账户下期权重值 %#v ... \n", rds)
 
 	// 第四步 委托账户投注
 	var wg sync.WaitGroup
 
 	wg.Add(len(users))
-	log.Println("【4】执行委托账户投注 ... ")
+	log.Println("执行托管账户投注 >>> ")
 
-	for _, user := range users {
+	for idx, user := range users {
+		idx := idx
 		user := user
-		m1Gold := ofM1Gold(user.Gold)
 
+		m1Gold := ofM1Gold(user.Gold)
+		log.Printf("【%02d】托管账户%q ：活跃系数【%.4f】，资金基数【%d】 >>> \n", idx+1, user.UserName, mrx, m1Gold)
 		go func() {
-			time.Sleep(250 * time.Millisecond)
+			time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
 			bets := make(map[int32]int32)
-			for _, i := range SN28 {
-				if rds[i] <= user.Sigma {
+			for _, n := range SN28 {
+				if rds[n] <= user.Sigma {
+					log.Printf("【%02d】托管账户%q ：竞猜数字【 %02d - 】； \n", idx+1, user.UserName, n)
 					continue
 				}
 
-				fGold := mrx * ((rds[i] - user.Sigma) / (1.0 - user.Sigma)) * float64(2*m1Gold) * float64(STDS1000[i]) / 1000
+				var sig float64
+				if rds[n] > 1.0 {
+					sig = rds[n]
+					log.Printf("【%02d】托管账户%q ：竞猜数字【 %02d H 】，权重值【%.2f】； \n", idx+1, user.UserName, n, sig)
+				} else {
+					sig = (rds[n] - user.Sigma) / (1.0 - user.Sigma)
+					log.Printf("【%02d】托管账户%q ：竞猜数字【 %02d L 】，权重值【%.2f】； \n", idx+1, user.UserName, n, sig)
+				}
+
+				fGold := mrx * sig * float64(m1Gold) * float64(STDS1000[n]) / 1000
 				iGold := ofGold(fGold)
 				if iGold > 0 {
-					bets[i] = iGold
+					bets[n] = iGold
 				}
 			}
 
@@ -124,5 +140,5 @@ func run(db *sql.DB, portGold, portBetting string) {
 	}
 
 	wg.Wait()
-	log.Println("【4】执行委托账户投注完成 ... ")
+	log.Println("全部执行结束 ...")
 }
