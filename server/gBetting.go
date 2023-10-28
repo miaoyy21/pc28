@@ -43,6 +43,7 @@ func (s *BettingService) Betting(ctx context.Context, r *pb.BettingRequest) (*pb
 		Token:     r.GetToken(),
 	}
 
+	log.Printf("投注期数【%s】...\n", req.Issue)
 	for i, g := range r.GetBets() {
 		var resp BettingResponse
 
