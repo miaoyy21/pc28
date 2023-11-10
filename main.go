@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"g28/client"
-	"g28/server"
 	"log"
+	"pc28/client"
+	"pc28/server"
 )
 
 var sFlag bool
