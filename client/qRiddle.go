@@ -2,7 +2,7 @@ package client
 
 import (
 	"fmt"
-	"g28/hdo"
+	"pc28/hdo"
 	"strconv"
 )
 

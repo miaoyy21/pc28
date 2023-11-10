@@ -3,11 +3,11 @@ package server
 import (
 	"context"
 	"fmt"
-	"g28/hdo"
-	pb "g28/proto"
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"pc28/hdo"
+	pb "pc28/proto"
 	"strconv"
 	"strings"
 )
