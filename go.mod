@@ -1,4 +1,4 @@
-module pc28
+module g28
 
 go 1.19
 

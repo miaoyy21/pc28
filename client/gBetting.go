@@ -2,9 +2,9 @@ package client
 
 import (
 	"context"
+	pb "g28/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "pc28/proto"
 )
 
 func gBetting(target, issue string, bets map[int32]int32, cookie, userAgent, unix, keyCode, deviceId, userId, token string) error {
