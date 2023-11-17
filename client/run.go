@@ -29,7 +29,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 		log.Printf("【ERR-11】: %s \n", err)
 		return
 	}
-	log.Printf("最新开奖期数【%d】 ... \n", issue)
+	log.Printf("最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
 
 	mrx := 1.0
 	if total < 1<<26 {
