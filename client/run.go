@@ -32,8 +32,9 @@ func run(db *sql.DB, portGold, portBetting string) {
 	log.Printf("最新开奖期数【%d】 ... \n", issue)
 
 	mrx := 1.0
-	if total < 1<<27 {
-		mrx = float64(total) / float64(1<<27) // 134,217,728
+	if total < 1<<26 {
+		// TODO 调整参数
+		mrx = float64(total) / float64(1<<26) // 134,217,728 / 2
 	}
 
 	// 第二步 查询托管账户的金额
@@ -89,7 +90,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 	for _, user := range users {
 		go func(user *User) {
 			m1Gold := ofM1Gold(user.Gold)
-			log.Printf("托管账户%q ：活跃系数【%.4f】，资金基数【%d】 >>> \n", user.UserName, mrx, m1Gold)
+			log.Printf("托管账户%q ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx)*m1Gold)
 
 			time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 

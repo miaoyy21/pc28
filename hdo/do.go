@@ -36,7 +36,7 @@ func Do(origin, cookie, agent string, url string, s interface{}, t interface{}) 
 	req.Header.Set("Cookie", buildCookie(cookie))
 
 	// Response
-	http.DefaultClient.Timeout = 3 * time.Second
+	http.DefaultClient.Timeout = 5 * time.Second
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
