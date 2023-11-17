@@ -68,7 +68,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 			return
 		}
 
-		log.Printf("托管账户【%10s】的资金余额 %d ... \n", user.UserName, user.Gold)
+		log.Printf("托管账户【%-10s】的资金余额 %d ... \n", user.UserName, user.Gold)
 	}
 
 	// 第三步 查询本账户的权重值
@@ -90,7 +90,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 	for _, user := range users {
 		go func(user *User) {
 			m1Gold := ofM1Gold(user.Gold)
-			log.Printf("托管账户【%10s】 ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx*float64(m1Gold)))
+			log.Printf("托管账户【%-10s】 ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx*float64(m1Gold)))
 
 			time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
