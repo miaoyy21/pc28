@@ -2,6 +2,7 @@ package client
 
 import (
 	"fmt"
+	"log"
 	"pc28/hdo"
 	"strconv"
 )
@@ -63,7 +64,10 @@ func qRiddle(issue string) (map[int32]float64, error) {
 			return nil, err
 		}
 
-		rts[int32(n)] = r / (1000.0 / float64(STDS1000[int32(n)]))
+		rx := r / (1000.0 / float64(STDS1000[int32(n)]))
+		log.Printf("竞猜数字【 %02d 】：实际赔率【%.3f】，赔率系数【%.3f】； \n", n, r, rx)
+
+		rts[int32(n)] = rx
 	}
 
 	return rts, nil

@@ -96,17 +96,14 @@ func run(db *sql.DB, portGold, portBetting string) {
 			bets := make(map[int32]int32)
 			for _, n := range SN28 {
 				if rds[n] <= user.Sigma {
-					log.Printf("托管账户%q ：竞猜数字【 %02d - 】； \n", user.UserName, n)
 					continue
 				}
 
 				var sig float64
 				if rds[n] > 1.0 {
 					sig = rds[n]
-					log.Printf("托管账户%q ：竞猜数字【 %02d H 】，权重值【%.2f】； \n", user.UserName, n, sig)
 				} else {
 					sig = (rds[n] - user.Sigma) / (1.0 - user.Sigma)
-					log.Printf("托管账户%q ：竞猜数字【 %02d L 】，权重值【%.2f】； \n", user.UserName, n, sig)
 				}
 
 				fGold := mrx * sig * float64(m1Gold) * float64(STDS1000[n]) / 1000
