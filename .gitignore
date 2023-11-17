@@ -19,7 +19,9 @@
 
 # Go workspace file
 go.work
-pc28
+pc28_darwin_arm64
+pc28_linux_386
+pc28_windows_386.exe
 client/qRiddle.go
 config.json
 
