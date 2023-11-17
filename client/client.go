@@ -42,6 +42,10 @@ var STDS1000 = map[int32]int32{
 }
 
 func ofM1Gold(g int64) int64 {
+
+	// TODO 调整参数
+	g = g * 2
+
 	if g < 1<<22 {
 		// 4194304
 		return g / 40
