@@ -108,7 +108,13 @@ func run(db *sql.DB, portGold, portBetting string) {
 				}
 
 				fGold := mrx * sig * float64(m1Gold) * float64(STDS1000[n]) / 1000
-				iGold := ofGold(fGold)
+
+				// 转换可投注额
+				iGold := int32(fGold)
+				if int64(mrx*float64(m1Gold)) > 1<<19 {
+					iGold = ofGold(fGold) // 524,288
+				}
+
 				if iGold > 0 {
 					bets[n] = iGold
 				}
