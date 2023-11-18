@@ -126,7 +126,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 			}
 
 			if len(bets) == 28 {
-				log.Printf("//********************  全部均投注，不符合预期  ********************// ... \n")
+				log.Printf("托管账户【%-10s】 ：全部均投注，不符合预期  >>> \n", user.UserName)
 				return
 			}
 
