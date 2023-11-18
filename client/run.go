@@ -125,6 +125,11 @@ func run(db *sql.DB, portGold, portBetting string) {
 				}
 			}
 
+			if len(bets) == 28 {
+				log.Printf("//********************  全部均投注，不符合预期  ********************// ... \n")
+				return
+			}
+
 			if err := gBetting(net.JoinHostPort(user.Host, portBetting), fmt.Sprintf("%d", issue+1), bets,
 				user.Cookie, user.UserAgent, user.Unix, user.KeyCode, user.DeviceId, user.UserId, user.Token); err != nil {
 				log.Printf("【ERR-41】: %s \n", err)
