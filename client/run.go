@@ -77,7 +77,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 	}
 
 	// 第三步 查询本账户的权重值
-	sleepTo(54.0)
+	sleepTo(49.0)
 	log.Println("查询本账户的权重值 >>> ")
 
 	rds, err := qRiddle(fmt.Sprintf("%d", issue+1))
