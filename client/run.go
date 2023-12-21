@@ -86,6 +86,15 @@ func run(db *sql.DB, portGold, portBetting string) {
 		return
 	}
 
+	// 转移模式
+	var m0Gold int64
+	for _, user := range users {
+		if user.IsMaster {
+			m0Gold = ofM1Gold(user.Gold)
+			break
+		}
+	}
+
 	// 第四步 委托账户投注
 	var wg sync.WaitGroup
 
@@ -95,8 +104,11 @@ func run(db *sql.DB, portGold, portBetting string) {
 	for _, user := range users {
 		go func(user *User) {
 			m1Gold := ofM1Gold(user.Gold)
-			log.Printf("托管账户【%-10s】 ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx*float64(m1Gold)))
+			if !user.IsMaster {
+				m1Gold = m0Gold
+			}
 
+			log.Printf("托管账户【%-10s】 ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx*float64(m1Gold)))
 			time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
 			bets, nums := make(map[int32]int32), make([]string, 0)
