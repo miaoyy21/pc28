@@ -6,6 +6,7 @@ import (
 
 type User struct {
 	UserName string
+	IsMaster bool
 	Host     string
 	Sigma    float64
 
@@ -22,7 +23,7 @@ type User struct {
 
 func dQueryUsers(db *sql.DB) ([]*User, error) {
 	query := `
-		SELECT user_name, host, sigma, cookie, user_agent, unix, key_code, device_id, user_id, token, gold
+		SELECT user_name, is_master, host, sigma, cookie, user_agent, unix, key_code, device_id, user_id, token, gold
 		FROM user
 		WHERE is_valid = 1
 		ORDER BY gold DESC
@@ -37,14 +38,16 @@ func dQueryUsers(db *sql.DB) ([]*User, error) {
 	users := make([]*User, 0)
 	for rows.Next() {
 		var userName, host, cookie, userAgent, unix, keyCode, deviceId, userId, token string
+		var isMaster bool
 		var sigma float64
 		var gold int64
-		if err := rows.Scan(&userName, &host, &sigma, &cookie, &userAgent, &unix, &keyCode, &deviceId, &userId, &token, &gold); err != nil {
+		if err := rows.Scan(&userName, &isMaster, &host, &sigma, &cookie, &userAgent, &unix, &keyCode, &deviceId, &userId, &token, &gold); err != nil {
 			return nil, err
 		}
 
 		user := &User{
 			UserName: userName,
+			IsMaster: isMaster,
 			Host:     host,
 			Sigma:    sigma,
 

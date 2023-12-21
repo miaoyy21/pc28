@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"strings"
 	"sync"
 	"time"
 )
@@ -37,9 +38,8 @@ func run(db *sql.DB, portGold, portBetting string) {
 	}
 
 	mrx := 1.0
-	if total < 1<<26 {
-		// TODO 调整参数
-		mrx = float64(total) / float64(1<<26) // 134,217,728 / 2
+	if total < 1<<27 {
+		mrx = float64(total) / float64(1<<27) // 134,217,728
 	}
 
 	// 第二步 查询托管账户的金额
@@ -99,17 +99,22 @@ func run(db *sql.DB, portGold, portBetting string) {
 
 			time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
-			bets := make(map[int32]int32)
+			bets, nums := make(map[int32]int32), make([]string, 0)
 			for _, n := range SN28 {
-				if rds[n] <= user.Sigma {
+				rd := rds[n]
+				if !user.IsMaster {
+					rd = 1 / rds[n]
+				}
+
+				if rd <= user.Sigma {
 					continue
 				}
 
 				var sig float64
-				if rds[n] > 1.0 {
-					sig = rds[n]
+				if rd > 1.0 {
+					sig = rd
 				} else {
-					sig = (rds[n] - user.Sigma) / (1.0 - user.Sigma)
+					sig = (rd - user.Sigma) / (1.0 - user.Sigma)
 				}
 
 				fGold := mrx * sig * float64(m1Gold) * float64(STDS1000[n]) / 1000
@@ -122,12 +127,14 @@ func run(db *sql.DB, portGold, portBetting string) {
 
 				if iGold > 0 {
 					bets[n] = iGold
+					nums = append(nums, fmt.Sprintf("%02d", n))
 				}
 			}
 
-			if len(bets) == 28 {
-				log.Printf("托管账户【%-10s】 ：全部均投注，不符合预期  >>> \n", user.UserName)
-				return
+			if user.IsMaster {
+				log.Printf("托管账户【%-10s】 ：【 + 】所选的投注数字 %q  >>> \n", user.UserName, strings.Join(nums, ", "))
+			} else {
+				log.Printf("托管账户【%-10s】 ：【 - 】所选的投注数字 %q  >>> \n", user.UserName, strings.Join(nums, ", "))
 			}
 
 			if err := gBetting(net.JoinHostPort(user.Host, portBetting), fmt.Sprintf("%d", issue+1), bets,
@@ -148,6 +155,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 			}
 
 			wg.Done()
+
 		}(user)
 	}
 
