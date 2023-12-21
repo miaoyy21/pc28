@@ -26,7 +26,7 @@ func dQueryUsers(db *sql.DB) ([]*User, error) {
 		SELECT user_name, is_master, host, sigma, cookie, user_agent, unix, key_code, device_id, user_id, token, gold
 		FROM user
 		WHERE is_valid = 1
-		ORDER BY gold DESC
+		ORDER BY user_id ASC
 	`
 
 	rows, err := db.Query(query)
