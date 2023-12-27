@@ -38,8 +38,8 @@ func run(db *sql.DB, portGold, portBetting string) {
 	}
 
 	mrx := 1.0
-	if total < 1<<27 {
-		mrx = float64(total) / float64(1<<27) // 134,217,728
+	if total < 1<<26 {
+		mrx = float64(total) / float64(1<<26) // 134,217,728/2
 	}
 
 	// 第二步 查询托管账户的金额
