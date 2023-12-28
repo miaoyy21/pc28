@@ -23,7 +23,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 
 	// 第一步 查询本账号的最新期数
 	sleepTo(30.0 + 5*rand.Float64())
-	log.Println("查询本账号的最新期数 >>> ")
+	log.Println("<1> 查询本账号的最新期数 >>> ")
 
 	issue, total, err := qIssueGold()
 	if err != nil {
@@ -31,7 +31,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 		return
 	}
 
-	log.Printf("最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
+	log.Printf("<1> 最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
 	if total < 1<<24 {
 		log.Printf("//********************  资金池没有达到设定值【%d】，不进行投注  ********************// ... \n", 1<<24) // 16,777,216
 		return
@@ -44,7 +44,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 
 	// 第二步 查询托管账户的金额
 	sleepTo(40.0 + 5*rand.Float64())
-	log.Println("查询托管账户的资金余额 >>> ")
+	log.Println("<2> 查询托管账户的资金余额 >>> ")
 
 	users, err := dQueryUsers(db)
 	if err != nil {
@@ -73,12 +73,12 @@ func run(db *sql.DB, portGold, portBetting string) {
 			return
 		}
 
-		log.Printf("托管账户【%-10s】的资金余额 %d ... \n", user.UserName, user.Gold)
+		log.Printf("<2> 托管账户【%-10s】的资金余额 %d ... \n", user.UserName, user.Gold)
 	}
 
 	// 第三步 查询本账户的权重值
 	sleepTo(52.0)
-	log.Println("查询本账户的权重值 >>> ")
+	log.Println("<3> 查询本账户的权重值 >>> ")
 
 	rds, err := qRiddle(fmt.Sprintf("%d", issue+1))
 	if err != nil {
@@ -99,7 +99,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 	var wg sync.WaitGroup
 
 	wg.Add(len(users))
-	log.Println("执行托管账户投注 >>> ")
+	log.Println("<4> 执行托管账户投注 >>> ")
 
 	for _, user := range users {
 		go func(user *User) {
@@ -108,7 +108,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 				m1Gold = m0Gold
 			}
 
-			log.Printf("托管账户【%-10s】 ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx*float64(m1Gold)))
+			log.Printf("  托管账户【%-10s】 ：活跃系数【%.4f】，原投注基数【%d】，实际投注基数【%d】 >>> \n", user.UserName, mrx, m1Gold, int64(mrx*float64(m1Gold)))
 			time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
 			bets, nums := make(map[int32]int32), make([]string, 0)
@@ -144,9 +144,9 @@ func run(db *sql.DB, portGold, portBetting string) {
 			}
 
 			if user.IsMaster {
-				log.Printf("托管账户【%-10s】 ：【 + 】所选的投注数字 %q  >>> \n", user.UserName, strings.Join(nums, ", "))
+				log.Printf("  托管账户【%-10s】 ：【 + 】所选的投注数字 %q  >>> \n", user.UserName, strings.Join(nums, ", "))
 			} else {
-				log.Printf("托管账户【%-10s】 ：【 - 】所选的投注数字 %q  >>> \n", user.UserName, strings.Join(nums, ", "))
+				log.Printf("  托管账户【%-10s】 ：【 - 】所选的投注数字 %q  >>> \n", user.UserName, strings.Join(nums, ", "))
 			}
 
 			if err := gBetting(net.JoinHostPort(user.Host, portBetting), fmt.Sprintf("%d", issue+1), bets,
@@ -172,5 +172,5 @@ func run(db *sql.DB, portGold, portBetting string) {
 	}
 
 	wg.Wait()
-	log.Println("全部执行结束 ...")
+	log.Println("<9> 全部执行结束 ...")
 }
