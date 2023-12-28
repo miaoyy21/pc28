@@ -31,7 +31,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 		return
 	}
 
-	log.Printf("<1> 最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
+	log.Printf("  最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
 	if total < 1<<24 {
 		log.Printf("//********************  资金池没有达到设定值【%d】，不进行投注  ********************// ... \n", 1<<24) // 16,777,216
 		return
@@ -73,7 +73,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 			return
 		}
 
-		log.Printf("<2> 托管账户【%-10s】的资金余额 %d ... \n", user.UserName, user.Gold)
+		log.Printf("  托管账户【%-10s】的资金余额 %d ... \n", user.UserName, user.Gold)
 	}
 
 	// 第三步 查询本账户的权重值
