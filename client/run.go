@@ -90,7 +90,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 	var m0Gold int64
 	for _, user := range users {
 		if user.IsMaster {
-			m0Gold = ofM1Gold(user.Gold)
+			m0Gold = ofM1Gold(user)
 			break
 		}
 	}
@@ -103,7 +103,7 @@ func run(db *sql.DB, portGold, portBetting string) {
 
 	for _, user := range users {
 		go func(user *User) {
-			m1Gold := ofM1Gold(user.Gold)
+			m1Gold := ofM1Gold(user)
 			if !user.IsMaster {
 				m1Gold = m0Gold
 			}

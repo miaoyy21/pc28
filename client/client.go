@@ -41,8 +41,12 @@ var STDS1000 = map[int32]int32{
 	27: 1,
 }
 
-func ofM1Gold(g int64) int64 {
+func ofM1Gold(user *User) int64 {
+	if user.M1Gold > 0 {
+		return int64(user.M1Gold)
+	}
 
+	g := user.Gold
 	if g < 1<<22 {
 		// 4194304
 		return g / 40
