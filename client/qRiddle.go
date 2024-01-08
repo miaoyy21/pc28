@@ -70,14 +70,14 @@ func qRiddle(issue string) (map[int32]float64, float64, error) {
 		log.Printf("  竞猜数字【%02d】：实际赔率【%7.2f】，赔率系数【%.3f】； \n", n, r, rx)
 
 		rts[int32(n)] = rx
-		exp = exp + (float64(STDS1000[int32(n)])/1000)*rx
+		exp = exp + rx/28
 	}
 
 	var dev float64
-	for n, rx := range rts {
-		dev = dev + (rx-exp)*(rx-exp)*(float64(STDS1000[n])/1000)
+	for _, rx := range rts {
+		dev = dev + (rx-exp)*(rx-exp)/28
 	}
 
-	log.Printf("  赔率系数的标准方差为【%.4f】 \n", dev)
+	log.Printf("  赔率系数的标准方差为【%.4f】 \n", math.Sqrt(dev))
 	return rts, math.Sqrt(dev), nil
 }
