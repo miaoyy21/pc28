@@ -32,10 +32,6 @@ func run(db *sql.DB, portGold, portBetting string) {
 	}
 
 	log.Printf("  最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
-	if total < 1<<24 {
-		log.Printf("//********************  资金池没有达到设定值【%d】，不进行投注  ********************// ... \n", 1<<24) // 16,777,216
-		return
-	}
 
 	mrx := 1.0
 	if total < 1<<26 {
@@ -80,9 +76,14 @@ func run(db *sql.DB, portGold, portBetting string) {
 	sleepTo(52.0)
 	log.Println("<3> 查询本账户的权重值 >>> ")
 
-	rds, err := qRiddle(fmt.Sprintf("%d", issue+1))
+	rds, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
 	if err != nil {
 		log.Printf("【ERR-31】: %s \n", err)
+		return
+	}
+
+	if dev < 0.025 {
+		log.Printf("//********************  赔率系数的标准方差没有达到设定值【%.3f】，不进行投注  ********************// ... \n", 0.025) // 16,777,216
 		return
 	}
 

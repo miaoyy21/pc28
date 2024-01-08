@@ -11,6 +11,17 @@ func TestRun(t *testing.T) {
 	}
 
 	fmt.Println("Done")
+
+	stds := make(map[int]int)
+	for i := 0; i <= 9; i++ {
+		for j := 0; j <= 9; j++ {
+			for k := 0; k <= 9; k++ {
+				stds[i+j+k]++
+			}
+		}
+	}
+
+	fmt.Printf("%#v \n", stds)
 }
 
 func do() {
