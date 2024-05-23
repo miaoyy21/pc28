@@ -17,6 +17,7 @@ type Config struct {
 	RiddleURL  string `json:"riddle_url"`
 	GoldURL    string `json:"gold_url"`
 	BettingURL string `json:"betting_url"`
+	SpaceURL   string `json:"space_url"`
 
 	UserId    string `json:"user_id"`
 	Token     string `json:"token"`

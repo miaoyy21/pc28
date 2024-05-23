@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func run(db *sql.DB, portGold, portBetting string) {
+func run1(db *sql.DB, portGold, portBetting string) {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Printf("【Exception】: %s \n", err)
