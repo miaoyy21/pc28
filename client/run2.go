@@ -40,7 +40,7 @@ func run2() {
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
 	// 计算投注数字
-	m1Gold, stdRd, m1Rate := 100000, 1.75, 0.80
+	m1Gold, stdRd, m1Rate := 250000, 1.75, 0.80
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】； \n", n, rds[n])
