@@ -37,21 +37,25 @@ func run2() {
 		log.Printf("【ERR-X2】: %s \n", err)
 		return
 	}
-	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
 	// 计算投注数字
-	m1Gold, m1Rate := 100000, 0.80
+	m1Gold, m1Rate := 100000, 0.85
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
-		if rds[n] < 1.0 {
+
+		if rds[n] < 0.50 {
+			rx = 1.2
+		} else if rds[n] < 1.0 {
 			rx = 1.0
 		} else if rds[n] < 1.5 {
-			rx = 0.75
+			rx = 0.8
 		} else if rds[n] < 2.0 {
-			rx = 0.50
+			rx = 0.6
 		} else if rds[n] < 2.5 {
-			rx = 0.25
+			rx = 0.4
+		} else if rds[n] < 3.0 {
+			rx = 0.2
 		} else {
 			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【 - 】； \n", n, rds[n])
 			continue
@@ -71,6 +75,7 @@ func run2() {
 	}
 
 	log.Printf("【 按最热结果 】所选的投注数字【%q】，总金额【%d】  >>> \n", strings.Join(nums, ", "), summery)
+	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
 	// 最后一步 执行投注数字
 	if err := qBetting(fmt.Sprintf("%d", issue+1), bets); err != nil {
