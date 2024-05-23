@@ -11,8 +11,8 @@ var sFlag bool
 var cFlag bool
 
 func init() {
-	flag.BoolVar(&sFlag, "s", true, "服务端模式")
-	flag.BoolVar(&cFlag, "c", false, "客户端模式")
+	flag.BoolVar(&sFlag, "s", false, "服务端模式")
+	flag.BoolVar(&cFlag, "c", true, "客户端模式")
 
 	flag.Parse()
 }

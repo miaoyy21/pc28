@@ -3,7 +3,9 @@ package client
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"pc28/hdo"
+	"time"
 )
 
 type QBettingResponse struct {
@@ -43,6 +45,7 @@ func qBetting(issue string, bets map[int32]int32) error {
 		req.Numbers = i
 		req.GoldEggs = g
 
+		time.Sleep(time.Second * time.Duration(0.25*rand.Float64()))
 		err := hdo.Do(conf.Origin, conf.Cookie, conf.UserAgent, conf.BettingURL, req, &resp)
 		if err != nil {
 			return err
