@@ -21,12 +21,12 @@ func run2() {
 	// 第一步 查询本账号的最新期数
 	log.Println("<1> 查询本账号的最新期数 >>> ")
 
-	issue, total, err := qIssueGold()
+	issue, total, result, err := qIssueGold()
 	if err != nil {
 		log.Printf("【ERR-X1】: %s \n", err)
 		return
 	}
-	log.Printf("  最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
+	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%s】 ... \n", issue, total, result)
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
 	// 第二步 查询开奖结果间隔

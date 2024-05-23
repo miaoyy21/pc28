@@ -25,13 +25,13 @@ func run1(db *sql.DB, portGold, portBetting string) {
 	sleepTo(30.0 + 5*rand.Float64())
 	log.Println("<1> 查询本账号的最新期数 >>> ")
 
-	issue, total, err := qIssueGold()
+	issue, total, result, err := qIssueGold()
 	if err != nil {
 		log.Printf("【ERR-11】: %s \n", err)
 		return
 	}
 
-	log.Printf("  最新开奖期数【%d】，资金池【%d】 ... \n", issue, total)
+	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%s】 ... \n", issue, total, result)
 
 	mrx := 1.0
 	if total < 1<<26 {
