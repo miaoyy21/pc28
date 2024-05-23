@@ -44,7 +44,7 @@ func run2() {
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
-		if rds[n] <= 1.0 {
+		if rds[n] < 1.0 {
 			rx = 1.0
 		} else if rds[n] < 1.5 {
 			rx = 0.75
