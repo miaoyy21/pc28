@@ -40,15 +40,25 @@ func run2() {
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
 	// 计算投注数字
-	m1Gold, stdRd, m1Rate := 250000, 1.75, 0.80
+	m1Gold, m1Rate := 100000, 0.80
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
-		log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】； \n", n, rds[n])
-		if rds[n] > stdRd {
+		var rx float64
+		if rds[n] <= 1.0 {
+			rx = 1.0
+		} else if rds[n] < 1.5 {
+			rx = 0.75
+		} else if rds[n] < 2.0 {
+			rx = 0.50
+		} else if rds[n] < 2.5 {
+			rx = 0.25
+		} else {
+			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【 - 】； \n", n, rds[n])
 			continue
 		}
 
-		iGold := int32(float64(m1Gold) * float64(STDS1000[n]) / 1000)
+		log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【%.2f】； \n", n, rds[n], rx)
+		iGold := int32(rx * float64(m1Gold) * float64(STDS1000[n]) / 1000)
 
 		bets[n] = iGold
 		summery = summery + iGold
