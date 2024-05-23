@@ -39,7 +39,7 @@ func run2() {
 	}
 
 	// 计算投注数字
-	m1Gold, m1Rate := 100000, 0.85
+	m1Gold := 100000
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
@@ -69,10 +69,11 @@ func run2() {
 		nums = append(nums, fmt.Sprintf("%02d", n))
 	}
 
-	if float64(summery)/float64(m1Gold) > m1Rate {
-		log.Printf("//********************  累计投注比例【%.3f】超过设定的最大投注比例【%.3f】，不进行投注  ********************// ... \n", float64(summery)/float64(m1Gold), m1Rate)
-		return
-	}
+	//m1Rate := 0.85
+	//if float64(summery)/float64(m1Gold) > m1Rate {
+	//	log.Printf("//********************  累计投注比例【%.3f】超过设定的最大投注比例【%.3f】，不进行投注  ********************// ... \n", float64(summery)/float64(m1Gold), m1Rate)
+	//	return
+	//}
 
 	log.Printf("【 按最热结果 】所选的投注数字【%q】，总金额【%d】  >>> \n", strings.Join(nums, ", "), summery)
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
