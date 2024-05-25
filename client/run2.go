@@ -19,10 +19,10 @@ func run2() {
 	}()
 
 	log.Println("//*********************************** 定时任务开始执行 ***********************************//")
-	
+
 	// 是否暂停
 	if stop > 0 {
-		log.Printf("<0> 暂停执行中，请等待【%02d】期 >>>\n ", stop)
+		log.Printf("<0> 暂停执行中，请等待【%d】期 >>>\n ", stop)
 
 		stop--
 		return
@@ -43,8 +43,8 @@ func run2() {
 
 	if len(latest) > 0 {
 		if _, ok := latest[result]; !ok {
-			stop = 10
-			log.Printf("<0> 暂停执行中，请等待【%02d】期 >>>\n ", stop)
+			stop = 5
+			log.Printf("<0> 暂停执行中，请等待【%d】期 >>>\n ", stop)
 
 			stop--
 			latest = make(map[int]struct{})
