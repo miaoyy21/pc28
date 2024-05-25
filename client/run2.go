@@ -63,20 +63,20 @@ func run2() {
 
 	// 计算投注数字
 	latest = make(map[int]struct{})
-	m1Gold := 200000
+	m1Gold := 250000
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
 
 		if rds[n] < 0.50 {
 			rx = 1.2
-		} else if rds[n] < 0.75 {
+		} else if rds[n] < 0.8 {
 			rx = 1.0
-		} else if rds[n] < 1.0 {
+		} else if rds[n] < 1.2 {
 			rx = 0.8
-		} else if rds[n] < 1.25 {
+		} else if rds[n] < 1.6 {
 			rx = 0.5
-		} else if rds[n] < 1.50 {
+		} else if rds[n] < 2.0 {
 			rx = 0.2
 		} else {
 			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【 - 】； \n", n, rds[n])
