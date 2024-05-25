@@ -22,6 +22,8 @@ func run2() {
 	// 是否暂停
 	if stop > 0 {
 		log.Printf("<0> 暂停执行中，请等待【%02d】期 >>>\n ", stop)
+
+		stop--
 		return
 	}
 
