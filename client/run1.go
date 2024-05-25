@@ -31,7 +31,7 @@ func run1(db *sql.DB, portGold, portBetting string) {
 		return
 	}
 
-	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%s】 ... \n", issue, total, result)
+	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 
 	mrx := 1.0
 	if total < 1<<26 {

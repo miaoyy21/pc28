@@ -8,6 +8,9 @@ import (
 	"time"
 )
 
+var latest map[int]struct{}
+var stop int
+
 func run2() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -16,6 +19,12 @@ func run2() {
 	}()
 
 	log.Println("//*********************************** 定时任务开始执行 ***********************************//")
+	// 是否暂停
+	if stop > 0 {
+		log.Printf("<0> 暂停执行中，请等待【%02d】期 >>>\n ", stop)
+		return
+	}
+
 	sleepTo(30.0 + 5*rand.Float64())
 
 	// 第一步 查询本账号的最新期数
@@ -26,8 +35,19 @@ func run2() {
 		log.Printf("【ERR-X1】: %s \n", err)
 		return
 	}
-	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%s】 ... \n", issue, total, result)
+	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
+
+	if len(latest) > 0 {
+		if _, ok := latest[result]; !ok {
+			stop = 10
+			log.Printf("<0> 暂停执行中，请等待【%02d】期 >>>\n ", stop)
+
+			stop--
+			latest = make(map[int]struct{})
+			return
+		}
+	}
 
 	// 第二步 查询开奖结果间隔
 	log.Println("<2> 查询开奖结果间隔 >>> ")
@@ -39,22 +59,21 @@ func run2() {
 	}
 
 	// 计算投注数字
-	m1Gold := 100000
+	latest = make(map[int]struct{})
+	m1Gold := 200000
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
 
 		if rds[n] < 0.50 {
 			rx = 1.2
-		} else if rds[n] < 1.0 {
+		} else if rds[n] < 0.75 {
 			rx = 1.0
-		} else if rds[n] < 1.5 {
+		} else if rds[n] < 1.0 {
 			rx = 0.8
-		} else if rds[n] < 2.0 {
-			rx = 0.6
-		} else if rds[n] < 2.5 {
-			rx = 0.4
-		} else if rds[n] < 3.0 {
+		} else if rds[n] < 1.25 {
+			rx = 0.5
+		} else if rds[n] < 1.50 {
 			rx = 0.2
 		} else {
 			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【 - 】； \n", n, rds[n])
@@ -67,6 +86,10 @@ func run2() {
 		bets[n] = iGold
 		summery = summery + iGold
 		nums = append(nums, fmt.Sprintf("%02d", n))
+
+		if rx >= 0.75 {
+			latest[int(n)] = struct{}{}
+		}
 	}
 
 	m1Rate := 0.90
