@@ -43,7 +43,7 @@ func run2() {
 
 	if len(latest) > 0 {
 		if _, ok := latest[result]; !ok {
-			stop = 5
+			stop = 4 + rand.Intn(3)
 			log.Printf("<0> 暂停执行中，请等待【%d】期 >>>\n ", stop)
 
 			stop--
@@ -63,7 +63,6 @@ func run2() {
 
 	// 计算投注数字
 	latest = make(map[int]struct{})
-	m1Gold := 250000
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
@@ -84,7 +83,7 @@ func run2() {
 		}
 
 		log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【%.2f】； \n", n, rds[n], rx)
-		iGold := int32(rx * float64(m1Gold) * float64(STDS1000[n]) / 1000)
+		iGold := int32(rx * float64(conf.Base) * float64(STDS1000[n]) / 1000)
 
 		bets[n] = iGold
 		summery = summery + iGold
@@ -95,7 +94,7 @@ func run2() {
 		}
 	}
 
-	log.Printf("【 按最热结果 】所选的投注数字【%q】，总金额【%d】  >>> \n", strings.Join(nums, ", "), summery)
+	log.Printf("【 按最热结果 】投注基数【%d】，投注数字【%q】，投注金额【%d】  >>> \n", conf.Base, strings.Join(nums, ", "), summery)
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
 	// 最后一步 执行投注数字

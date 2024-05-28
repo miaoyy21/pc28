@@ -26,6 +26,7 @@ type Config struct {
 	KeyCode   string `json:"key_code"`
 	DeviceId  string `json:"device_id"`
 	ChannelId string `json:"channel_id"`
+	Base      int    `json:"base"`
 }
 
 var conf Config
