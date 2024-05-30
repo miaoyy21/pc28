@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"sort"
 	"strings"
 	"time"
 )
+
+type SpaceResult struct {
+	Num  int32
+	Rate float64
+}
 
 func run3() {
 	defer func() {
@@ -15,7 +21,7 @@ func run3() {
 		}
 	}()
 
-	log.Println("//*********************************** 定时任务开始执行 ***********************************//")
+	log.Println("//*********************************** 定时任务开始执行【模式3】 ***********************************//")
 
 	// 是否暂停
 	if stop > 0 {
@@ -58,28 +64,64 @@ func run3() {
 		return
 	}
 
+	// 排序
+	spaces := make([]SpaceResult, 0, len(rds))
+	for num, rate := range rds {
+		spaces = append(spaces, SpaceResult{Num: num, Rate: rate})
+	}
+	sort.Slice(spaces, func(i, j int) bool {
+		return spaces[i].Rate >= spaces[j].Rate
+	})
+
+	// 重新添加
+	nds := make(map[int32]float64)
+	removed05, removed69, removed1013 := 6, 3, 2
+	for _, space := range spaces {
+		if removed05 > 0 && ((space.Num >= 0 && space.Num <= 5) || (space.Num >= 22 && space.Num <= 27)) {
+			removed05--
+			continue
+		}
+
+		if removed69 > 0 && ((space.Num >= 6 && space.Num <= 9) || (space.Num >= 18 && space.Num <= 21)) {
+			removed69--
+			continue
+		}
+
+		if removed1013 > 0 && ((space.Num >= 10 && space.Num <= 13) || (space.Num >= 14 && space.Num <= 17)) {
+			removed1013--
+			continue
+		}
+
+		nds[space.Num] = space.Rate
+	}
+
 	// 计算投注数字
 	latest = make(map[int]struct{})
 	bets, nums, summery := make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		var rx float64
 
-		if rds[n] < 0.50 {
-			rx = 1.2
-		} else if rds[n] < 0.8 {
-			rx = 1.0
-		} else if rds[n] < 1.2 {
-			rx = 0.8
-		} else if rds[n] < 1.6 {
-			rx = 0.5
-		} else if rds[n] < 2.0 {
-			rx = 0.2
-		} else {
-			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【 - 】； \n", n, rds[n])
+		if _, ok := nds[n]; !ok {
+			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，自动忽略【 ✘ 】； \n", n, rds[n])
 			continue
 		}
 
-		log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【%.2f】； \n", n, rds[n], rx)
+		if nds[n] < 0.50 {
+			rx = 1.2
+		} else if nds[n] < 0.8 {
+			rx = 1.0
+		} else if nds[n] < 1.2 {
+			rx = 0.8
+		} else if nds[n] < 1.6 {
+			rx = 0.5
+		} else if nds[n] < 2.0 {
+			rx = 0.2
+		} else {
+			log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【 - 】； \n", n, nds[n])
+			continue
+		}
+
+		log.Printf("  竞猜数字【%02d】：当前间隔/标准间隔【%.3f】，投注系数【%.2f】； \n", n, nds[n], rx)
 		iGold := int32(rx * float64(conf.Base) * float64(STDS1000[n]) / 1000)
 
 		bets[n] = iGold
