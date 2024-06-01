@@ -46,7 +46,7 @@ func run3() {
 
 	if len(latest) > 0 && conf.Stop > 0 {
 		if _, ok := latest[result]; !ok {
-			stop = 4 + rand.Intn(3)
+			stop = conf.Stop + rand.Intn(3)
 			log.Printf("<0> 暂停执行中，请等待【%d】期 >>>\n ", stop)
 
 			stop--
