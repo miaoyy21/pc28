@@ -44,7 +44,7 @@ func run3() {
 	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 	time.Sleep(time.Second * time.Duration(5*rand.Float64()))
 
-	if len(latest) > 0 {
+	if len(latest) > 0 && conf.Stop > 0 {
 		if _, ok := latest[result]; !ok {
 			stop = 4 + rand.Intn(3)
 			log.Printf("<0> 暂停执行中，请等待【%d】期 >>>\n ", stop)
