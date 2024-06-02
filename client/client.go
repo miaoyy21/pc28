@@ -124,7 +124,7 @@ func Run(portGold, portBetting string) error {
 
 	sleepTo(30)
 	//go run1(db, portGold, portBetting)
-	go run3()
+	go run2()
 
 	t := time.NewTicker(time.Minute)
 	defer t.Stop()
@@ -139,7 +139,7 @@ func Run(portGold, portBetting string) error {
 			log.Printf("【重置时钟】偏移量%.2f秒 ...\n", 30-d0.Seconds())
 
 			//go run1(db, portGold, portBetting)
-			go run3()
+			go run2()
 		}
 	}
 }
