@@ -124,7 +124,7 @@ func Run(portGold, portBetting string) error {
 
 	sleepTo(30)
 	//go run1(db, portGold, portBetting)
-	go run2()
+	go run3()
 
 	t := time.NewTicker(time.Minute)
 	defer t.Stop()
@@ -138,8 +138,15 @@ func Run(portGold, portBetting string) error {
 			t.Reset(time.Duration(90-d0.Seconds()) * time.Second)
 			log.Printf("【重置时钟】偏移量%.2f秒 ...\n", 30-d0.Seconds())
 
+			// 重新加载配置
+			if err := InitConfig(); err != nil {
+				log.Printf("重新加载配置文件错误：%s \n", err.Error())
+				continue
+			}
+			log.Printf("重载配置文件成功 ...\n")
+
 			//go run1(db, portGold, portBetting)
-			go run2()
+			go run3()
 		}
 	}
 }

@@ -75,7 +75,7 @@ func run3() {
 
 	// 重新添加
 	nds := make(map[int32]float64)
-	removed05, removed69, removed1013 := 6, 3, 2
+	removed05, removed69, removed1013 := 4, 2, 1
 	for _, space := range spaces {
 		if removed05 > 0 && ((space.Num >= 0 && space.Num <= 5) || (space.Num >= 22 && space.Num <= 27)) {
 			removed05--
