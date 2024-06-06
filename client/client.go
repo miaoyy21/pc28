@@ -124,7 +124,7 @@ func Run(portGold, portBetting string) error {
 
 	sleepTo(30)
 	//go run1(db, portGold, portBetting)
-	go run3()
+	go run1Local()
 
 	t := time.NewTicker(time.Minute)
 	defer t.Stop()
@@ -146,7 +146,7 @@ func Run(portGold, portBetting string) error {
 			log.Printf("重载配置文件成功 ...\n")
 
 			//go run1(db, portGold, portBetting)
-			go run3()
+			go run1Local()
 		}
 	}
 }
