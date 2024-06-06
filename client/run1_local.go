@@ -52,7 +52,7 @@ func run1Local() {
 	m1Gold := conf.Base
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
-	sigma, bets, nums := 0.98, make(map[int32]int32), make([]string, 0)
+	sigma, bets, nums := 0.99, make(map[int32]int32), make([]string, 0)
 	for _, n := range SN28 {
 		rd := rds[n]
 		if rd <= sigma {
