@@ -49,7 +49,7 @@ func run1Local() {
 	// 第四步 委托账户投注
 	log.Println("<4> 执行托管账户投注 >>> ")
 
-	m1Gold := 250000
+	m1Gold := conf.Base
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
 	sigma, bets, nums := 0.98, make(map[int32]int32), make([]string, 0)
