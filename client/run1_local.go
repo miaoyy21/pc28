@@ -68,10 +68,7 @@ func run1Local() {
 		fGold := sig * float64(conf.Base) * float64(STDS1000[n]) / 1000
 
 		// 转换可投注额
-		iGold := int32(fGold)
-		if int64(conf.Base) > 1<<19 {
-			iGold = ofGold(fGold) // 524,288
-		}
+		iGold := ofGold(fGold)
 
 		if iGold > 0 {
 			bets[n] = iGold
