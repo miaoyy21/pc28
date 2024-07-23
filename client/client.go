@@ -1,7 +1,6 @@
 package client
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"math"
@@ -105,16 +104,16 @@ func Run(portGold, portBetting string) error {
 	}
 
 	// 数据库连接对象
-	db, err := sql.Open("mysql", conf.Dsn)
-	if err != nil {
-		return err
-	}
+	//db, err := sql.Open("mysql", conf.Dsn)
+	//if err != nil {
+	//	return err
+	//}
 
 	// Ping
-	if err := db.Ping(); err != nil {
-		return err
-	}
-	log.Println("连接数据库成功 ...")
+	//if err := db.Ping(); err != nil {
+	//	return err
+	//}
+	//log.Println("连接数据库成功 ...")
 
 	// 如果超过30秒，那么等待30秒后运行
 	if time.Now().Second() >= 30 {
@@ -124,7 +123,7 @@ func Run(portGold, portBetting string) error {
 
 	sleepTo(30)
 	//go run1(db, portGold, portBetting)
-	go run2()
+	go run1Local()
 
 	t := time.NewTicker(time.Minute)
 	defer t.Stop()
@@ -146,7 +145,7 @@ func Run(portGold, portBetting string) error {
 			log.Printf("重载配置文件成功 ...\n")
 
 			//go run1(db, portGold, portBetting)
-			go run2()
+			go run1Local()
 		}
 	}
 }

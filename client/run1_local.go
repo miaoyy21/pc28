@@ -31,7 +31,7 @@ func run1Local() {
 	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 
 	// 第三步 查询本账户的权重值
-	sleepTo(53.0)
+	sleepTo(51.0)
 	log.Println("<3> 查询本账户的权重值 >>> ")
 
 	rds, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
@@ -40,11 +40,11 @@ func run1Local() {
 		return
 	}
 
-	_ = dev
-	//if dev < 0.02 {
-	//	log.Printf("//********************  赔率系数的标准方差没有达到设定值【%.3f】，不进行投注  ********************// ... \n", 0.02) // 16,777,216
-	//	return
-	//}
+	//_ = dev
+	if dev < 0.025 {
+		log.Printf("//********************  赔率系数的标准方差没有达到设定值【%.3f】，不进行投注  ********************// ... \n", 0.025) // 16,777,216
+		return
+	}
 
 	// 第四步 委托账户投注
 	log.Println("<4> 执行托管账户投注 >>> ")
@@ -52,7 +52,7 @@ func run1Local() {
 	m1Gold := conf.Base
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
-	sigma, bets, nums := 0.99, make(map[int32]int32), make([]string, 0)
+	sigma, bets, nums := 0.975, make(map[int32]int32), make([]string, 0)
 	for _, n := range SN28 {
 		rd := rds[n]
 		if rd <= sigma {
