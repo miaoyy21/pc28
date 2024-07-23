@@ -49,10 +49,9 @@ func run1Local() {
 	// 第四步 委托账户投注
 	log.Println("<4> 执行托管账户投注 >>> ")
 
-	m1Gold := conf.Base
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
-	sigma, bets, nums := 0.975, make(map[int32]int32), make([]string, 0)
+	sigma, bets, nums, summery := 0.975, make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		rd := rds[n]
 		if rd <= sigma {
@@ -66,21 +65,22 @@ func run1Local() {
 			sig = (rd - sigma) / (1.0 - sigma)
 		}
 
-		fGold := sig * float64(m1Gold) * float64(STDS1000[n]) / 1000
+		fGold := sig * float64(conf.Base) * float64(STDS1000[n]) / 1000
 
 		// 转换可投注额
 		iGold := int32(fGold)
-		if int64(m1Gold) > 1<<19 {
+		if int64(conf.Base) > 1<<19 {
 			iGold = ofGold(fGold) // 524,288
 		}
 
 		if iGold > 0 {
 			bets[n] = iGold
+			summery = summery + iGold
 			nums = append(nums, fmt.Sprintf("%02d", n))
 		}
 	}
 
-	log.Printf("  所选的投注数字 %q  >>> \n", strings.Join(nums, ", "))
+	log.Printf("  投注基数【%d】，投注数字 %q，投注金额【%d】  >>> \n", conf.Base, strings.Join(nums, ", "), summery)
 
 	// 最后一步 执行投注数字
 	if err := qBetting(fmt.Sprintf("%d", issue+1), bets); err != nil {
