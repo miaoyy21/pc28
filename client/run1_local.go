@@ -20,7 +20,7 @@ func run1Local() {
 	log.Println("//*********************************** 定时任务开始执行 模式1 本地 ***********************************//")
 
 	// 第一步 查询本账号的最新期数
-	sleepTo(30.0 + 5*rand.Float64())
+	sleepTo(30 + 5*rand.Float64())
 	log.Println("<1> 查询本账号的最新期数 >>> ")
 
 	issue, total, result, err := qHistory()
@@ -31,6 +31,7 @@ func run1Local() {
 	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 
 	// 第二步 查询当前期的投注金额和人数
+	sleepTo(39 + 3*rand.Float64())
 	log.Println("<2> 查询本期的投注信息 >>> ")
 	issueTotal, issueMembers, err := qIssue(fmt.Sprintf("%d", issue+1))
 	if err != nil {
@@ -45,7 +46,7 @@ func run1Local() {
 	}
 
 	// 第三步 查询本账户的权重值
-	sleepTo(47.5 + 3*rand.Float64())
+	sleepTo(48 + 3*rand.Float64())
 	log.Println("<3> 查询本账户的权重值 >>> ")
 
 	rds, _, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
