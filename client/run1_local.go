@@ -75,11 +75,11 @@ func run1Local() {
 		var sig float64
 		if rd > 1.0 {
 			sig = rd
-		} else {
-			sig = (rd - sigma) / (1.0 - sigma)
 			if sig > 1.0 {
 				sig = math.Min(sig*math.Pow(0.95, sig), maxSig)
 			}
+		} else {
+			sig = (rd - sigma) / (1.0 - sigma)
 		}
 
 		fGold := sig * float64(conf.Base) * float64(STDS1000[n]) / 1000
