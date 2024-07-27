@@ -13,6 +13,7 @@ type Config struct {
 	Cookie    string `json:"cookie"`
 	UserAgent string `json:"user_agent"`
 
+	IssueURL   string `json:"issue_url"`
 	HistoryURL string `json:"history_url"`
 	RiddleURL  string `json:"riddle_url"`
 	GoldURL    string `json:"gold_url"`
