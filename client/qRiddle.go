@@ -30,7 +30,7 @@ type QRiddleResponse struct {
 	Msg string `json:"msg"`
 }
 
-func qRiddle(issue string) (map[int32]float64, float64, error) {
+func qRiddle(issue string) (map[int32]float64, float64, float64, error) {
 	req := &QRiddleRequest{
 		Issue:     issue,
 		Unix:      conf.Unix,
@@ -46,11 +46,11 @@ func qRiddle(issue string) (map[int32]float64, float64, error) {
 
 	err := hdo.Do(conf.Origin, conf.Cookie, conf.UserAgent, conf.RiddleURL, req, &resp)
 	if err != nil {
-		return nil, 0, err
+		return nil, 0, 0, err
 	}
 
 	if resp.Status != 0 {
-		return nil, 0, fmt.Errorf("接收到状态错误吗 : [%d] %s", resp.Status, resp.Msg)
+		return nil, 0, 0, fmt.Errorf("接收到状态错误吗 : [%d] %s", resp.Status, resp.Msg)
 	}
 
 	var exp float64
@@ -58,12 +58,12 @@ func qRiddle(issue string) (map[int32]float64, float64, error) {
 	for _, riddle := range resp.Data.Riddle {
 		n, err := strconv.Atoi(riddle.Num)
 		if err != nil {
-			return nil, 0, err
+			return nil, 0, 0, err
 		}
 
 		r, err := strconv.ParseFloat(riddle.Rate, 64)
 		if err != nil {
-			return nil, 0, err
+			return nil, 0, 0, err
 		}
 
 		rx := r / (1000.0 / float64(STDS1000[int32(n)]))
@@ -78,6 +78,6 @@ func qRiddle(issue string) (map[int32]float64, float64, error) {
 		dev = dev + (rx-exp)*(rx-exp)/28
 	}
 
-	log.Printf("  赔率系数的标准方差为【%.4f】 \n", math.Sqrt(dev))
-	return rts, math.Sqrt(dev), nil
+	log.Printf("  赔率系数的数学期望为【%.4f】，标准方差为【%.4f】 \n", exp, math.Sqrt(dev))
+	return rts, exp, math.Sqrt(dev), nil
 }

@@ -25,7 +25,7 @@ func run1(db *sql.DB, portGold, portBetting string) {
 	sleepTo(30.0 + 5*rand.Float64())
 	log.Println("<1> 查询本账号的最新期数 >>> ")
 
-	issue, total, result, err := qIssueGold()
+	issue, total, result, err := qHistory()
 	if err != nil {
 		log.Printf("【ERR-11】: %s \n", err)
 		return
@@ -76,7 +76,7 @@ func run1(db *sql.DB, portGold, portBetting string) {
 	sleepTo(53.0)
 	log.Println("<3> 查询本账户的权重值 >>> ")
 
-	rds, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
+	rds, _, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
 	if err != nil {
 		log.Printf("【ERR-31】: %s \n", err)
 		return

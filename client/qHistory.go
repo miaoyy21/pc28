@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type QIssueResponse struct {
+type QHistoryResponse struct {
 	Status int    `json:"status"`
 	Msg    string `json:"msg"`
 
@@ -21,7 +21,7 @@ type QIssueResponse struct {
 	} `json:"data"`
 }
 
-type QIssueRequest struct {
+type QHistoryRequest struct {
 	PageSize  int    `json:"pagesize"`
 	Unix      string `json:"unix"`
 	KeyCode   string `json:"keycode"`
@@ -32,8 +32,8 @@ type QIssueRequest struct {
 	Token     string `json:"token"`
 }
 
-func qIssueGold() (int, int, int, error) {
-	req := QIssueRequest{
+func qHistory() (int, int, int, error) {
+	req := QHistoryRequest{
 		PageSize:  200,
 		PType:     conf.PType,
 		Unix:      conf.Unix,
@@ -44,9 +44,9 @@ func qIssueGold() (int, int, int, error) {
 		Token:     conf.Token,
 	}
 
-	var resp QIssueResponse
+	var resp QHistoryResponse
 
-	err := hdo.Do(conf.Origin, conf.Cookie, conf.UserAgent, conf.IssueURL, req, &resp)
+	err := hdo.Do(conf.Origin, conf.Cookie, conf.UserAgent, conf.HistoryURL, req, &resp)
 	if err != nil {
 		return 0, 0, 0, err
 	}

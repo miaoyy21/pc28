@@ -36,7 +36,7 @@ func run3() {
 	// 第一步 查询本账号的最新期数
 	log.Println("<1> 查询本账号的最新期数 >>> ")
 
-	issue, total, result, err := qIssueGold()
+	issue, total, result, err := qHistory()
 	if err != nil {
 		log.Printf("【ERR-X1】: %s \n", err)
 		return
