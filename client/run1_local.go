@@ -64,7 +64,7 @@ func run1Local() {
 	log.Println("<4> 执行托管账户投注 >>> ")
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
-	maxSig := float64(issueTotal) / float64(conf.Base)
+	maxSig := float64(issueTotal) * 0.5 / float64(conf.Base)
 	sigma, bets, nums, summery := 0.975, make(map[int32]int32), make([]string, 0), int32(0)
 	for _, n := range SN28 {
 		rd := rds[n]
