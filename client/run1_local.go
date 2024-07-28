@@ -74,10 +74,9 @@ func run1Local() {
 
 		var sig float64
 		if rd > 1.0 {
-			if rd > maxSig {
+			sig = rd
+			if sig > maxSig {
 				sig = maxSig * math.Pow(1.01, rd-maxSig)
-			} else {
-				sig = rd * math.Pow(0.95, rd)
 			}
 		} else {
 			sig = (rd - sigma) / (1.0 - sigma)
