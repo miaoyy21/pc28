@@ -31,7 +31,7 @@ func run1Local() {
 	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 
 	// 第二步 查询当前期的投注金额和人数
-	sleepTo(39 + 3*rand.Float64())
+	sleepTo(48)
 	log.Println("<2> 查询本期的投注信息 >>> ")
 	issueTotal, issueMembers, err := qIssue(fmt.Sprintf("%d", issue+1))
 	if err != nil {
@@ -46,7 +46,7 @@ func run1Local() {
 	}
 
 	// 第三步 查询本账户的权重值
-	sleepTo(48 + 3*rand.Float64())
+	sleepTo(50)
 	log.Println("<3> 查询本账户的权重值 >>> ")
 
 	rds, _, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
@@ -76,7 +76,9 @@ func run1Local() {
 		if rd > 1.0 {
 			sig = rd
 			if sig > maxSig {
-				sig = maxSig * math.Pow(1.01, rd-maxSig*2)
+				sig = math.Min(dev, maxSig*math.Pow(1.01, (sig-maxSig)/4.0))
+			} else {
+				sig = math.Min(dev, sig)
 			}
 		} else {
 			sig = (rd - sigma) / (1.0 - sigma)
