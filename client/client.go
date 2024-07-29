@@ -80,8 +80,12 @@ func ofGold(fGold float64) int32 {
 		iGold = int32(math.Round(fGold/1500.0) * 1500)
 	} else if fGold >= 1<<14 {
 		iGold = int32(math.Round(fGold/1000.0) * 1000)
+	} else if fGold >= 1<<12 {
+		iGold = int32(math.Round(fGold/250.0) * 250)
+	} else if fGold >= 1<<10 {
+		iGold = int32(math.Round(fGold/100.0) * 100)
 	} else {
-		iGold = int32(math.Round(fGold/500.0) * 500)
+		iGold = int32(fGold)
 	}
 
 	return iGold
