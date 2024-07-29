@@ -40,8 +40,8 @@ func run1Local() {
 	}
 	log.Printf("  本期开奖期数【%s】，总投注额【%d】，投注人数【%d】 ... \n", fmt.Sprintf("%d", issue+1), issueTotal, issueMembers)
 
-	if issueTotal < 1<<18 {
-		log.Printf("//********************  本期总投注额没有打到设定值【%d】，不进行投注  ********************// ... \n", 1<<18) // 16,777,216
+	if issueTotal < 1<<17 {
+		log.Printf("//********************  本期总投注额没有打到设定值【%d】，不进行投注  ********************// ... \n", 1<<17) // 16,777,216
 		return
 	}
 
@@ -78,7 +78,9 @@ func run1Local() {
 			if sig > maxSig {
 				sig = math.Min(dev, maxSig*math.Pow(1.01, (sig-maxSig)/4.0))
 			} else {
-				sig = math.Min(dev, sig)
+				if dev > 4 && sig > 4 {
+					sig = math.Min(dev, sig)
+				}
 			}
 		} else {
 			sig = (rd - sigma) / (1.0 - sigma)
