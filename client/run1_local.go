@@ -7,7 +7,6 @@ import (
 	"math"
 	"math/rand"
 	"strings"
-	"time"
 )
 
 func run1Local() {
@@ -31,7 +30,7 @@ func run1Local() {
 	log.Printf("  最新开奖期数【%d】，资金池【%d】，开奖结果【%02d】 ... \n", issue, total, result)
 
 	// 第二步 查询当前期的投注金额和人数
-	sleepTo(48)
+	sleepTo(51)
 	log.Println("<2> 查询本期的投注信息 >>> ")
 	issueTotal, issueMembers, err := qIssue(fmt.Sprintf("%d", issue+1))
 	if err != nil {
@@ -40,16 +39,15 @@ func run1Local() {
 	}
 	log.Printf("  本期开奖期数【%s】，总投注额【%d】，投注人数【%d】 ... \n", fmt.Sprintf("%d", issue+1), issueTotal, issueMembers)
 
-	if issueTotal < 1<<17 {
-		log.Printf("//********************  本期总投注额没有打到设定值【%d】，不进行投注  ********************// ... \n", 1<<17) // 16,777,216
+	if issueTotal < 1<<18 {
+		log.Printf("//********************  本期总投注额没有打到设定值【%d】，不进行投注  ********************// ... \n", 1<<18)
 		return
 	}
 
 	// 第三步 查询本账户的权重值
-	sleepTo(50)
 	log.Println("<3> 查询本账户的权重值 >>> ")
 
-	rds, _, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
+	rds, exp, dev, err := qRiddle(fmt.Sprintf("%d", issue+1))
 	if err != nil {
 		log.Printf("【ERR-31】: %s \n", err)
 		return
@@ -62,7 +60,6 @@ func run1Local() {
 
 	// 第四步 委托账户投注
 	log.Println("<4> 执行托管账户投注 >>> ")
-	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 
 	maxSig := float64(issueTotal) * 0.25 / float64(conf.Base)
 	sigma, bets, nums, summery := 0.975, make(map[int32]int32), make([]string, 0), int32(0)
@@ -76,11 +73,15 @@ func run1Local() {
 		if rd > 1.0 {
 			sig = rd
 			if sig > maxSig {
-				sig = math.Min(dev, maxSig*math.Pow(1.01, (sig-maxSig)/4.0))
+				sig = math.Min(dev, maxSig) * math.Pow(1.25, (sig-maxSig)/exp)
 			} else {
 				if dev > 4 && sig > 4 {
 					sig = math.Min(dev, sig)
 				}
+			}
+
+			for sig > 75 {
+				sig = 0.5 * sig * math.Pow(1.25, maxSig/exp)
 			}
 		} else {
 			sig = (rd - sigma) / (1.0 - sigma)
@@ -94,11 +95,11 @@ func run1Local() {
 		if iGold > 0 {
 			bets[n] = iGold
 			summery = summery + iGold
-			nums = append(nums, fmt.Sprintf("%02d [%.2f]", n, sig))
+			nums = append(nums, fmt.Sprintf("%02d [%d,%.2f]", n, iGold, sig))
 		}
 	}
 
-	log.Printf("  最大系数【%.3f】，投注基数【%d】，投注数字 %q，投注金额【%d】  >>> \n", maxSig, conf.Base, strings.Join(nums, ", "), summery)
+	log.Printf("  最大系数【%.3f】，投注基数【%d】，投注金额【🍎%d】，投注数字：\n\t  %q  \n  >>> \n", maxSig, conf.Base, summery, strings.Join(nums, " ｜ "))
 
 	// 最后一步 执行投注数字
 	if err := qBetting(fmt.Sprintf("%d", issue+1), bets); err != nil {

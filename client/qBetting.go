@@ -2,7 +2,6 @@ package client
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 	"pc28/hdo"
 	"time"
@@ -38,7 +37,6 @@ func qBetting(issue string, bets map[int32]int32) error {
 		Token:     conf.Token,
 	}
 
-	log.Printf("投注期数【%s】...\n", req.Issue)
 	for i, g := range bets {
 		var resp QBettingResponse
 
