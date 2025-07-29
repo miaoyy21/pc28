@@ -1,9 +1,9 @@
-package home28
+package ifs
 
 import (
 	"log"
+	"pc28/base"
 	"time"
-	"tty28/base"
 )
 
 func Run() error {
