@@ -7,6 +7,6 @@ import (
 
 func main() {
 	if err := ifs.Run(); err != nil {
-		log.Fatalf("ifs.Run() Failure %s \n", err.Error())
+		log.Fatalf("服务启动失败：%s \n", err.Error())
 	}
 }

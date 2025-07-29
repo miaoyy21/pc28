@@ -12,19 +12,17 @@ func Run() error {
 		return err
 	}
 
+	log.Println("启动定时器完成 ...")
+
 	t := time.NewTicker(time.Second)
 	defer t.Stop()
 
-	base.SleepTo(float64(time.Now().Add(time.Second).Second()))
-	log.Println("启动定时器完成 ...")
 	for {
 		select {
 		case <-t.C:
-			if time.Now().Second() != 23 && time.Now().Second() != 53 {
-				if time.Now().Second() == 0 {
-					base.SleepTo(1)
-				}
+			s3 := time.Now().Add(3 * time.Second)
 
+			if s3.Second() > 3 || s3.Minute()%5 != 0 {
 				continue
 			}
 
@@ -35,7 +33,10 @@ func Run() error {
 			}
 			log.Printf("重载配置文件成功 ...\n")
 
-			go run()
+			// 执行投注
+			run()
+
+			time.Sleep(5 * time.Second)
 		}
 	}
 }
