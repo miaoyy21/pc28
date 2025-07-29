@@ -21,7 +21,6 @@ func Run() error {
 		select {
 		case <-t.C:
 			s3 := time.Now().Add(3 * time.Second)
-
 			if s3.Second() > 3 || s3.Minute()%5 != 0 {
 				continue
 			}
@@ -36,6 +35,7 @@ func Run() error {
 			// 执行投注
 			run()
 
+			// 暂停等待5秒
 			time.Sleep(5 * time.Second)
 		}
 	}
