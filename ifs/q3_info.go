@@ -55,16 +55,20 @@ func getInfo(issueId int) (*Info, error) {
 
 	if err := Exec("templates/info.tpl", struct {
 		IssueId int
-		KeyCode string
-		Token   string
-		Unix    string
-		UserId  string
+
+		UserId   string
+		DeviceId string
+		Unix     string
+		KeyCode  string
+		Token    string
 	}{
 		IssueId: issueId,
-		KeyCode: base.Config.KeyCode,
-		Token:   base.Config.Token,
-		Unix:    base.Config.Unix,
-		UserId:  base.Config.UserId,
+
+		UserId:   base.Config.UserId,
+		DeviceId: base.Config.DeviceId,
+		Unix:     base.Config.Unix,
+		KeyCode:  base.Config.KeyCode,
+		Token:    base.Config.Token,
 	}, &resp); err != nil {
 		return nil, err
 	}

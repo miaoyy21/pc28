@@ -34,14 +34,14 @@ func getUser() (*User, error) {
 			UserId   string
 			DeviceId string
 			Unix     string
-			Token    string
 			KeyCode  string
+			Token    string
 		}{
 			UserId:   base.Config.UserId,
 			DeviceId: base.Config.DeviceId,
 			Unix:     base.Config.Unix,
-			Token:    base.Config.Token,
 			KeyCode:  base.Config.KeyCode,
+			Token:    base.Config.Token,
 		},
 		&resp,
 	); err != nil {
