@@ -20,7 +20,7 @@ func run() {
 	// 获取用户信息
 	user, err := getUser()
 	if err != nil {
-		log.Printf("ERROR : %s", err.Error())
+		log.Printf("getUser() ERROR : %s", err.Error())
 		return
 	}
 
@@ -29,7 +29,7 @@ func run() {
 	// 获取最新的已开奖及即将开奖信息
 	common, err := getCommon()
 	if err != nil {
-		log.Printf("ERROR : %s", err.Error())
+		log.Printf("getCommon() ERROR : %s", err.Error())
 		return
 	}
 
@@ -38,7 +38,7 @@ func run() {
 	// 即将开奖赔率
 	nextIssue, err := getInfo(common.NextIssueId)
 	if err != nil {
-		log.Printf("ERROR : %s", err.Error())
+		log.Printf("getInfo(%d) ERROR : %s", common.NextIssueId, err.Error())
 		return
 	}
 
