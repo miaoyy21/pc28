@@ -75,6 +75,7 @@ func run() {
 
 	// 执行投注
 	log.Printf("sBets is %s\n", strings.Join(sBets, ","))
+	log.Println()
 	//if err := doBet(common.NextIssueNumber, strings.Join(sBets, ","), total); err != nil {
 	//	log.Printf("ERROR : %s", err.Error())
 	//	return
