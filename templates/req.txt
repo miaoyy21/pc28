@@ -47,7 +47,28 @@ curl -H "Host: ifsapp.kawancn.com" -H "Content-Type: application/json;charset=UT
 			"tmoney_all": 0,
 			"utmoney": 0,
 			"rn": 1
-		}, ...... ],
+		}, ......,
+
+        {
+            "id": 1463457,
+            "number": "2584",
+            "nowtime": "2025-07-30 14:18:18",
+            "opentime": "2025-07-30 14:15:00",
+            "countdown": 0,
+            "opendown": 0,
+            "isinvest": 1,
+            "isopen": 1,
+            "openresultdetail": "0+4+2",
+            "detail1": "00",
+            "detail2": "04",
+            "detail3": "02",
+            "openresult": "6",
+            "tmoney": -522,
+            "wmember": 33,
+            "tmoney_all": 239435754,
+            "utmoney": 10000,
+            "rn": 4
+        }, ...... ],
 		"issue": [{
 			"lastissue": "2333",
 			"totalcount": 788
@@ -61,6 +82,8 @@ curl -H "Host: ifsapp.kawancn.com" -H "Content-Type: application/json;charset=UT
 -- 3. pc28_Betting_Odds 【查询赔率】
 
 curl -H "Host: ifsapp.kawancn.com" -H "ruserid: 0" -H "User-Agent: dankas/3.6.8 (iPhone; iOS 15.4.1; Scale/2.00)" -H "simtype: " -H "simcard: 1" -H "phonemodel: iPhone11,8" -H "channelid: 100" -H "appversion: 3.6.8" -H "appversionid: 123" -H "phonenumber: " -H "mac: 02:00:00:00:00:00" -H "deviceid: 0E6EE3CC-8184-4CD7-B163-50AE8AD4516F" -H "Accept-Language: zh-Hans-CN;q=1, en-CN;q=0.9" -H "osversion: 15.4.1" -H "ptype: 1" -H "Accept: */*" --data "issueid=1463208&keycode=2b45a59fabb31053a4f13003afddac33&token=w7jkp7tq6f8ogpcch13dr5iqd72cioudkr5cjfp4&unix=1753781323376&userid=31591499" --compressed "http://ifsapp.kawancn.com/IFS/pc28/pc28_Betting_Odds.ashx"
+
+{"status":0,"data":{"items":[{"id":1463208,"c0":276332,"c1":768871,"c2":1490095,"c3":2438601,"c4":3634917,"c5":5180658,"c6":6995816,"c7":9218779,"c8":11610300,"c9":14090668,"c10":16282068,"c11":17709157,"c12":18864637,"c13":19126210,"c14":19238165,"c15":18721096,"c16":18470151,"c17":16116104,"c18":13542112,"c19":11510624,"c20":9239337,"c21":6930443,"c22":5262962,"c23":3653320,"c24":2416963,"c25":1461918,"c26":757472,"c27":274726,"tmoney":255282502,"issue":"2335","rownum":1,"rownum1":1}]},"msg":"查询成功！"}
 
 /***************************************************************************************************************************************************************************/
 

@@ -1,15 +1,18 @@
-curl 'https://i.tiaotiaoyu.com/quick/info?utoken={{ .Token }}&cid={{ .Id }}&stylePath=quick' \
-  -H 'accept: application/json, text/plain, */*' \
-  -H 'accept-language: zh-CN,zh;q=0.9' \
-  -H 'cache-control: no-cache' \
-  -H 'origin: https://tiaotiaoyu.cc' \
-  -H 'pragma: no-cache' \
-  -H 'priority: u=1, i' \
-  -H 'referer: https://tiaotiaoyu.cc/' \
-  -H 'sec-ch-ua: "Google Chrome";v="137", "Chromium";v="137", "Not/A)Brand";v="24"' \
-  -H 'sec-ch-ua-mobile: ?0' \
-  -H 'sec-ch-ua-platform: "macOS"' \
-  -H 'sec-fetch-dest: empty' \
-  -H 'sec-fetch-mode: cors' \
-  -H 'sec-fetch-site: cross-site' \
-  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'
+curl -H "Host: ifsapp.kawancn.com"
+    -H "ruserid: 0"
+    -H "User-Agent: dankas/3.6.8 (iPhone; iOS 15.4.1; Scale/2.00)"
+    -H "simtype: "
+    -H "simcard: 1"
+    -H "phonemodel: iPhone11,8"
+    -H "channelid: 100"
+    -H "appversion: 3.6.8"
+    -H "appversionid: 123"
+    -H "phonenumber: "
+    -H "mac: 02:00:00:00:00:00"
+    -H "deviceid: 0E6EE3CC-8184-4CD7-B163-50AE8AD4516F"
+    -H "Accept-Language: zh-Hans-CN;q=1, en-CN;q=0.9"
+    -H "osversion: 15.4.1"
+    -H "ptype: 1"
+    -H "Accept: */*"
+    --data "issueid={{ .IssueId }}&keycode={{ .KeyCode }}&token={{ .Token }}&unix={{ .Unix }}&userid={{ .UserId }}"
+    --compressed "http://ifsapp.kawancn.com/IFS/pc28/pc28_Betting_Odds.ashx"

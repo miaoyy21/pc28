@@ -14,8 +14,17 @@ func getUser() (*User, error) {
 	var resp struct {
 		Status int `json:"status"`
 		Data   struct {
-			Id   int `json:"userid"`
-			Gold int `json:"goldeggs"`
+			UserId         int           `json:"userid"`
+			GoldEggs       int           `json:"goldeggs"`
+			Cashbook       int           `json:"cashbox"`
+			Auto28         int           `json:"auto28"`
+			Auto28Count    int           `json:"auto28count"`
+			Mobile         string        `json:"mobileno"`
+			MobileStatus   int           `json:"mobilestatus"`
+			IssueCashpoint int           `json:"issetcashpsw"`
+			VisitorType    int           `json:"visitortype"`
+			HeadImg        string        `json:"headimg"`
+			BannerList     []interface{} `json:"bannerList"`
 		} `json:"data"`
 		Msg string `json:"msg"`
 	}
@@ -43,5 +52,5 @@ func getUser() (*User, error) {
 		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 
-	return &User{Id: resp.Data.Id, Gold: resp.Data.Gold}, nil
+	return &User{Id: resp.Data.UserId, Gold: resp.Data.GoldEggs}, nil
 }

@@ -1,50 +1,114 @@
 package ifs
 
-//import (
-//	"fmt"
-//	"strconv"
-//	"tty28/base"
-//)
-//
-//type Info struct {
-//	TotalBet string
-//	Values   map[int]float64
-//}
-//
-//func getInfo(id int) (*Info, error) {
-//	var resp struct {
-//		Code int    `json:"code"`
-//		Msg  string `json:"msg"`
-//		Data struct {
-//			Id       int    `json:"id"`
-//			TotalBet string `json:"total_bet"`
-//			List     []struct {
-//				No  int         `json:"no"`
-//				Odd interface{} `json:"odd"`
-//			} `json:"list"`
-//		} `json:"data"`
-//	}
-//
-//	if err := Exec("templates/info.tpl", struct {
-//		Token string
-//		Id    int
-//	}{Token: base.Config.Token, Id: id}, &resp); err != nil {
-//		return nil, err
-//	}
-//
-//	if resp.Code != 0 {
-//		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Code, resp.Msg)
-//	}
-//
-//	values := make(map[int]float64)
-//	for _, value := range resp.Data.List {
-//		odd, err := strconv.ParseFloat(fmt.Sprintf("%v", value.Odd), 64)
-//		if err != nil {
-//			return nil, err
-//		}
-//
-//		values[value.No] = odd
-//	}
-//
-//	return &Info{TotalBet: resp.Data.TotalBet, Values: values}, nil
-//}
+import (
+	"fmt"
+	"pc28/base"
+)
+
+type Info struct {
+	Total  int
+	Values map[int]float64
+}
+
+func getInfo(issueId int) (*Info, error) {
+	var resp struct {
+		Status int `json:"status"`
+		Data   struct {
+			Items []struct {
+				Id      int    `json:"id"`
+				C0      int    `json:"c0"`
+				C1      int    `json:"c1"`
+				C2      int    `json:"c2"`
+				C3      int    `json:"c3"`
+				C4      int    `json:"c4"`
+				C5      int    `json:"c5"`
+				C6      int    `json:"c6"`
+				C7      int    `json:"c7"`
+				C8      int    `json:"c8"`
+				C9      int    `json:"c9"`
+				C10     int    `json:"c10"`
+				C11     int    `json:"c11"`
+				C12     int    `json:"c12"`
+				C13     int    `json:"c13"`
+				C14     int    `json:"c14"`
+				C15     int    `json:"c15"`
+				C16     int    `json:"c16"`
+				C17     int    `json:"c17"`
+				C18     int    `json:"c18"`
+				C19     int    `json:"c19"`
+				C20     int    `json:"c20"`
+				C21     int    `json:"c21"`
+				C22     int    `json:"c22"`
+				C23     int    `json:"c23"`
+				C24     int    `json:"c24"`
+				C25     int    `json:"c25"`
+				C26     int    `json:"c26"`
+				C27     int    `json:"c27"`
+				TMoney  int    `json:"tmoney"`
+				Issue   string `json:"issue"`
+				RowNum  int    `json:"rownum"`
+				RowNum1 int    `json:"rownum1"`
+			} `json:"items"`
+		} `json:"data"`
+		Msg string `json:"msg"`
+	}
+
+	if err := Exec("templates/info.tpl", struct {
+		IssueId int
+		KeyCode string
+		Token   string
+		Unix    string
+		UserId  string
+	}{
+		IssueId: issueId,
+		KeyCode: base.Config.KeyCode,
+		Token:   base.Config.Token,
+		Unix:    base.Config.Unix,
+		UserId:  base.Config.UserId,
+	}, &resp); err != nil {
+		return nil, err
+	}
+
+	if resp.Status != 0 {
+		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
+	}
+
+	values := make(map[int]float64)
+
+	items := resp.Data.Items
+	if len(items) != 1 {
+		return nil, fmt.Errorf("查询明细异常，其长度为[%d]", len(items))
+	}
+
+	item := items[0]
+	values[0] = float64(item.TMoney) / float64(item.C0)
+	values[1] = float64(item.TMoney) / float64(item.C1)
+	values[2] = float64(item.TMoney) / float64(item.C2)
+	values[3] = float64(item.TMoney) / float64(item.C3)
+	values[4] = float64(item.TMoney) / float64(item.C4)
+	values[5] = float64(item.TMoney) / float64(item.C5)
+	values[6] = float64(item.TMoney) / float64(item.C6)
+	values[7] = float64(item.TMoney) / float64(item.C7)
+	values[8] = float64(item.TMoney) / float64(item.C8)
+	values[9] = float64(item.TMoney) / float64(item.C9)
+	values[10] = float64(item.TMoney) / float64(item.C10)
+	values[11] = float64(item.TMoney) / float64(item.C11)
+	values[12] = float64(item.TMoney) / float64(item.C12)
+	values[13] = float64(item.TMoney) / float64(item.C13)
+	values[14] = float64(item.TMoney) / float64(item.C14)
+	values[15] = float64(item.TMoney) / float64(item.C15)
+	values[16] = float64(item.TMoney) / float64(item.C16)
+	values[17] = float64(item.TMoney) / float64(item.C17)
+	values[18] = float64(item.TMoney) / float64(item.C18)
+	values[19] = float64(item.TMoney) / float64(item.C19)
+	values[20] = float64(item.TMoney) / float64(item.C20)
+	values[21] = float64(item.TMoney) / float64(item.C21)
+	values[22] = float64(item.TMoney) / float64(item.C22)
+	values[23] = float64(item.TMoney) / float64(item.C23)
+	values[24] = float64(item.TMoney) / float64(item.C24)
+	values[25] = float64(item.TMoney) / float64(item.C25)
+	values[26] = float64(item.TMoney) / float64(item.C26)
+	values[27] = float64(item.TMoney) / float64(item.C27)
+
+	return &Info{Total: item.TMoney, Values: values}, nil
+}
