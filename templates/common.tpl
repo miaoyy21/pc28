@@ -1,15 +1,9 @@
-curl 'https://i.tiaotiaoyu.com/quick/common_info?utoken={{ .Token }}&stylePath=quick' \
-  -H 'accept: application/json, text/plain, */*' \
-  -H 'accept-language: zh-CN,zh;q=0.9' \
-  -H 'cache-control: no-cache' \
-  -H 'origin: https://tiaotiaoyu.cc' \
-  -H 'pragma: no-cache' \
-  -H 'priority: u=1, i' \
-  -H 'referer: https://tiaotiaoyu.cc/' \
-  -H 'sec-ch-ua: "Google Chrome";v="137", "Chromium";v="137", "Not/A)Brand";v="24"' \
-  -H 'sec-ch-ua-mobile: ?0' \
-  -H 'sec-ch-ua-platform: "macOS"' \
-  -H 'sec-fetch-dest: empty' \
-  -H 'sec-fetch-mode: cors' \
-  -H 'sec-fetch-site: cross-site' \
-  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'
+curl -H "Host: ifsapp.kawancn.com" \
+    -H "Content-Type: application/json;charset=UTF-8" \
+    -H "Origin: http://ifsapp.kawancn.com" \
+    -H "Accept: application/json, text/plain, */*" \
+    -H "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148" \
+    -H "Referer: http://ifsapp.kawancn.com/Pages/GamePlay/H5Game/game_bg/index.aspx" \
+    -H "Accept-Language: zh-CN,zh-Hans;q=0.9" \
+    --data-binary "{\"pagesize\":6,\"pageno\":1,\"userid\":\"{{ .UserId }}\",\"ptype\":\"1\",\"deviceid\":\"{{ .DeviceId }}\",\"unix\":\"{{ .Unix }}\",\"token\":\"{{ .Token }}\",\"keycode\":\"{{ .KeyCode }}\",\"appversion\":\"123\",\"barheight\":\"48\"}" \
+    --compressed "http://ifsapp.kawancn.com/IFS/pc28/pc28_28ListH5N.ashx"

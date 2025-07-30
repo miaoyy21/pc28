@@ -14,5 +14,5 @@ curl -H "Host: ifsapp.kawancn.com" \
     -H "osversion: 15.4.1" \
     -H "ptype: 1" \
     -H "Accept: */*" \
-    --data "issueid={{ .IssueId }}&keycode={{ .KeyCode }}&token={{ .Token }}&unix={{ .Unix }}&userid={{ .UserId }}"
+    --data "issueid={{ .IssueId }}&keycode={{ .KeyCode }}&token={{ .Token }}&unix={{ .Unix }}&userid={{ .UserId }}" \
     --compressed "http://ifsapp.kawancn.com/IFS/pc28/pc28_Betting_Odds.ashx"
