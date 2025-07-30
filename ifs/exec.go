@@ -3,7 +3,6 @@ package ifs
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"os/exec"
 	"text/template"
 )
@@ -16,7 +15,6 @@ func Exec(name string, inData interface{}, outData interface{}) error {
 		return err
 	}
 
-	log.Println("\n", buf.String())
 	out, err := exec.Command("/bin/bash", "-c", buf.String()).Output()
 	if err != nil {
 		return err
