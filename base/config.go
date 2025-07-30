@@ -7,8 +7,12 @@ import (
 )
 
 type config struct {
-	Token string `json:"token"`
-	Base  int    `json:"base"`
+	UserId   string `json:"user_id"`
+	DeviceId string `json:"device_id"`
+	Token    string `json:"token"`
+	Unix     string `json:"unix"`
+	KeyCode  string `json:"key_code"`
+	Base     int    `json:"base"`
 }
 
 var Config config

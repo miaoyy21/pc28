@@ -1,46 +1,47 @@
 package ifs
 
-//
-//import (
-//	"fmt"
-//	"strconv"
-//	"strings"
-//	"tty28/base"
-//)
-//
-//type User struct {
-//	Id   int
-//	Name string
-//	Gold int
-//}
-//
-//func getUser() (*User, error) {
-//	var resp struct {
-//		Code int    `json:"code"`
-//		Msg  string `json:"msg"`
-//		Data struct {
-//			Id   int    `json:"id"`
-//			Name string `json:"uname"`
-//			Gold string `json:"gold"`
-//		} `json:"data"`
-//	}
-//
-//	if err := Exec("templates/user.tpl", struct{ Token string }{Token: base.Config.Token}, &resp); err != nil {
-//		return nil, err
-//	}
-//
-//	if resp.Code != 0 {
-//		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Code, resp.Msg)
-//	}
-//
-//	gold, err := strconv.Atoi(strings.Replace(resp.Data.Gold, ",", "", -1))
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	return &User{
-//		Id:   resp.Data.Id,
-//		Name: resp.Data.Name,
-//		Gold: gold,
-//	}, nil
-//}
+import (
+	"fmt"
+	"pc28/base"
+)
+
+type User struct {
+	Id   int
+	Gold int
+}
+
+func getUser() (*User, error) {
+	var resp struct {
+		Status int `json:"status"`
+		Data   struct {
+			Id   int `json:"userid"`
+			Gold int `json:"goldeggs"`
+		} `json:"data"`
+		Msg string `json:"msg"`
+	}
+
+	if err := Exec("templates/user.tpl",
+		struct {
+			UserId   string
+			DeviceId string
+			Unix     string
+			Token    string
+			KeyCode  string
+		}{
+			UserId:   base.Config.UserId,
+			DeviceId: base.Config.DeviceId,
+			Unix:     base.Config.Unix,
+			Token:    base.Config.Token,
+			KeyCode:  base.Config.KeyCode,
+		},
+		&resp,
+	); err != nil {
+		return nil, err
+	}
+
+	if resp.Status != 0 {
+		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
+	}
+
+	return &User{Id: resp.Data.Id, Gold: resp.Data.Gold}, nil
+}
