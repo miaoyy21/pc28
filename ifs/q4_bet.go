@@ -29,8 +29,8 @@ func doBet(issueNumber string, sBets string, total int) error {
 
 		UserId:   base.Config.UserId,
 		DeviceId: base.Config.DeviceId,
-		Unix:     base.Config.Unix,
-		KeyCode:  base.Config.KeyCode,
+		Unix:     base.Config.MsUnix,
+		KeyCode:  base.Config.MsKeyCode,
 		Token:    base.Config.Token,
 	}, &resp); err != nil {
 		return err

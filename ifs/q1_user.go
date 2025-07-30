@@ -40,8 +40,8 @@ func getUser() (*User, error) {
 		}{
 			UserId:   base.Config.UserId,
 			DeviceId: base.Config.DeviceId,
-			Unix:     base.Config.Unix,
-			KeyCode:  base.Config.KeyCode,
+			Unix:     base.Config.SUnix,
+			KeyCode:  base.Config.SKeyCode,
 			Token:    base.Config.Token,
 		},
 		&resp,
