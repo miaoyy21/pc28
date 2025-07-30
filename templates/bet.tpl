@@ -14,5 +14,5 @@ curl -H "Host: ifsapp.kawancn.com" \
     -H "osversion: 15.4.1" \
     -H "ptype: 1" \
     -H "Accept: */*" \
-    --data "bettinglist=1%2C3%2C6%2C10%2C15%2C21%2C28%2C36%2C45%2C55%2C63%2C69%2C73%2C75%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0&issue=2336&keycode=36ce5291d3d254250618bb33f65563ab&token=w7jkp7tq6f8ogpcch13dr5iqd72cioudkr5cjfp4&totalgoldeggs=500&unix=1753781412645&userid=31591499" \
+    --data "bettinglist={{ .SBets }}&issue={{ .IssueNumber }}&keycode={{ .KeyCode }}&token={{ .Token }}&totalgoldeggs={{ .Total }}&unix={{ .Unix }}&userid={{ .UserId}}" \
     --compressed "http://ifsapp.kawancn.com/IFS/pc28/pc28_Betting.ashx"

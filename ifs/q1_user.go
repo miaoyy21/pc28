@@ -6,8 +6,9 @@ import (
 )
 
 type User struct {
-	Id   int
-	Gold int
+	Id     int
+	Mobile string
+	Gold   int
 }
 
 func getUser() (*User, error) {
@@ -52,5 +53,5 @@ func getUser() (*User, error) {
 		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 
-	return &User{Id: resp.Data.UserId, Gold: resp.Data.GoldEggs}, nil
+	return &User{Id: resp.Data.UserId, Mobile: resp.Data.Mobile, Gold: resp.Data.GoldEggs}, nil
 }

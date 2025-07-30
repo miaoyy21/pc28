@@ -2,25 +2,42 @@ package ifs
 
 import (
 	"fmt"
-	"tty28/base"
+	"pc28/base"
 )
 
-func doBet(id int, bets string) error {
+func doBet(issueNumber string, sBets string, total int) error {
 	var resp struct {
-		Code int    `json:"code"`
-		Msg  string `json:"msg"`
+		Status int      `json:"status"`
+		Data   struct{} `json:"data"`
+		Msg    string   `json:"msg"`
 	}
 
 	if err := Exec("templates/bet.tpl", struct {
-		Token string
-		Id    int
-		Bets  string
-	}{Token: base.Config.Token, Id: id, Bets: bets}, &resp); err != nil {
+		IssueNumber string
+		SBets       string
+		Total       int
+
+		UserId   string
+		DeviceId string
+		Unix     string
+		KeyCode  string
+		Token    string
+	}{
+		IssueNumber: issueNumber,
+		SBets:       sBets,
+		Total:       total,
+
+		UserId:   base.Config.UserId,
+		DeviceId: base.Config.DeviceId,
+		Unix:     base.Config.Unix,
+		KeyCode:  base.Config.KeyCode,
+		Token:    base.Config.Token,
+	}, &resp); err != nil {
 		return err
 	}
 
-	if resp.Code != 0 {
-		return fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Code, resp.Msg)
+	if resp.Status != 0 {
+		return fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 
 	return nil
