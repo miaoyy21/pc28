@@ -66,8 +66,8 @@ func getInfo(issueId int) (*Info, error) {
 
 		UserId:   base.Config.UserId,
 		DeviceId: base.Config.DeviceId,
-		Unix:     base.Config.MsUnix,
-		KeyCode:  base.Config.MsKeyCode,
+		Unix:     base.Config.UnixOdds,
+		KeyCode:  base.Config.KeyCodeOdds,
 		Token:    base.Config.Token,
 	}, &resp); err != nil {
 		return nil, err

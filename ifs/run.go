@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"net/url"
 	"pc28/base"
 	"strings"
 )
@@ -74,12 +75,11 @@ func run() {
 	}
 
 	// 执行投注
-	log.Printf("sBets is %s\n", strings.Join(sBets, ","))
-	log.Println()
-	//if err := doBet(common.NextIssueNumber, strings.Join(sBets, ","), total); err != nil {
-	//	log.Printf("ERROR : %s", err.Error())
-	//	return
-	//}
+	sBetEscape := url.QueryEscape(strings.Join(sBets, ","))
+	if err := doBet(common.NextIssueNumber, sBetEscape, total); err != nil {
+		log.Printf("ERROR : %s", err.Error())
+		return
+	}
 
 	log.Printf("/********************************** 投注已完成，投注金额【%-7d】 **********************************/\n", total)
 }

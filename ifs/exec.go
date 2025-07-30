@@ -16,7 +16,7 @@ func Exec(name string, inData interface{}, outData interface{}) error {
 		return err
 	}
 
-	log.Println(buf.String())
+	log.Println("\n", buf.String())
 	out, err := exec.Command("/bin/bash", "-c", buf.String()).Output()
 	if err != nil {
 		return err

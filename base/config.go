@@ -7,16 +7,18 @@ import (
 )
 
 type config struct {
-	UserId    string  `json:"user_id"`
-	DeviceId  string  `json:"device_id"`
-	Token     string  `json:"token"`
-	SUnix     string  `json:"unix_s"`
-	SKeyCode  string  `json:"key_code_s"`
-	MsUnix    string  `json:"unix_ms"`
-	MsKeyCode string  `json:"key_code_ms"`
-	Base      int     `json:"base"`
-	Sigma     float64 `json:"sigma"`
-	Enigma    float64 `json:"enigma"`
+	UserId         string  `json:"user_id"`
+	DeviceId       string  `json:"device_id"`
+	Token          string  `json:"token"`
+	UnixNormal     string  `json:"unix_normal"`
+	KeyCodeNormal  string  `json:"key_code_normal"`
+	UnixOdds       string  `json:"unix_odds"`
+	KeyCodeOdds    string  `json:"key_code_odds"`
+	UnixBetting    string  `json:"unix_betting"`
+	KeyCodeBetting string  `json:"key_code_betting"`
+	Base           int     `json:"base"`
+	Sigma          float64 `json:"sigma"`
+	Enigma         float64 `json:"enigma"`
 }
 
 var Config config
