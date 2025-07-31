@@ -37,7 +37,7 @@ func run() {
 	log.Printf("已开奖期数【%d | %s】，开奖结果【%02d】，即将开奖期数【%d | %s】...\n", common.ThisIssueId, common.ThisIssueNumber, common.ThisResult, common.NextIssueId, common.NextIssueNumber)
 
 	// 即将开奖赔率
-	base.SleepTo(57)
+	base.SleepTo(56)
 	nextIssue, err := getInfo(common.NextIssueId)
 	if err != nil {
 		log.Printf("getInfo(%d) ERROR : %s", common.NextIssueId, err.Error())
@@ -83,6 +83,7 @@ func run() {
 	log.Printf("Recording Successful ...\n")
 
 	// 执行投注
+	base.SleepTo(57)
 	sBetEscape := url.QueryEscape(strings.Join(sBets, ","))
 	if err := doBet(common.NextIssueNumber, sBetEscape, total); err != nil {
 		log.Printf("doBet() ERROR : %s", err.Error())
