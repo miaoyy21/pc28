@@ -74,10 +74,17 @@ func run() {
 		sBets = append(sBets, fmt.Sprintf("%d", bet))
 	}
 
+	// 记录
+	if err := doRecord(); err != nil {
+		log.Printf("doRecord() ERROR : %s", err.Error())
+		return
+	}
+	log.Printf("提交操作成功...\n")
+
 	// 执行投注
 	sBetEscape := url.QueryEscape(strings.Join(sBets, ","))
 	if err := doBet(common.NextIssueNumber, sBetEscape, total); err != nil {
-		log.Printf("ERROR : %s", err.Error())
+		log.Printf("doBet() ERROR : %s", err.Error())
 		return
 	}
 
