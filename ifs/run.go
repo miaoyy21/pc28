@@ -54,7 +54,7 @@ func run() {
 			if sigma <= 1.0 {
 				delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
 			} else {
-				delta = math.Pow(base.Config.Enigma, sigma)
+				delta = math.Pow(base.Config.Enigma, sigma-1.0)
 			}
 		}
 
@@ -79,7 +79,7 @@ func run() {
 		log.Printf("doRecord() ERROR : %s", err.Error())
 		return
 	}
-	log.Printf("提交操作成功...\n")
+	log.Printf("Do Recording Successful...\n")
 
 	// 执行投注
 	sBetEscape := url.QueryEscape(strings.Join(sBets, ","))
