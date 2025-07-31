@@ -20,8 +20,8 @@ func Run() error {
 	for {
 		select {
 		case <-t.C:
-			s3 := time.Now().Add(3 * time.Second)
-			if s3.Second() > 3 || s3.Minute()%5 != 0 {
+			s3 := time.Now()
+			if s3.Second() >= 3 || s3.Minute()%5 != 4 {
 				continue
 			}
 
@@ -33,10 +33,10 @@ func Run() error {
 			log.Printf("重载配置文件成功 ...\n")
 
 			// 执行投注
-			run()
+			go run()
 
 			// 暂停等待5秒
-			time.Sleep(5 * time.Second)
+			time.Sleep(60 * time.Second)
 		}
 	}
 }

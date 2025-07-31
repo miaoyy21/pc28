@@ -37,6 +37,7 @@ func run() {
 	log.Printf("已开奖期数【%d | %s】，开奖结果【%02d】，即将开奖期数【%d | %s】...\n", common.ThisIssueId, common.ThisIssueNumber, common.ThisResult, common.NextIssueId, common.NextIssueNumber)
 
 	// 即将开奖赔率
+	base.SleepTo(57)
 	nextIssue, err := getInfo(common.NextIssueId)
 	if err != nil {
 		log.Printf("getInfo(%d) ERROR : %s", common.NextIssueId, err.Error())
