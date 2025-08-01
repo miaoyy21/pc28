@@ -61,9 +61,9 @@ func run() {
 
 		bet := int(delta * float64(base.Config.Base) * float64(base.STDS1000[no]) / 1000)
 		if bet <= 0 {
-			log.Printf("  【   】数字【%02d】，赔率【%-8.2f %4.2f】...\n", no, nextIssue.Values[no], sigma)
+			log.Printf("  【   】数字【%02d】，赔率【%-8.2f %6.4f】...\n", no, nextIssue.Values[no], sigma)
 		} else {
-			log.Printf("  【 ✓ 】数字【%02d】，赔率【%-8.2f %4.2f】，投注系数【%4.2f】...\n", no, nextIssue.Values[no], sigma, delta)
+			log.Printf("  【 ✓ 】数字【%02d】，赔率【%-8.2f %6.4f】，投注系数【%4.2f】...\n", no, nextIssue.Values[no], sigma, delta)
 		}
 
 		total = total + bet
