@@ -55,7 +55,7 @@ func run() {
 			if sigma <= 1.0 {
 				delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
 			} else {
-				delta = sigma * math.Pow(base.Config.Enigma, sigma)
+				delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
 			}
 		}
 
