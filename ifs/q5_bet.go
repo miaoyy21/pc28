@@ -37,6 +37,10 @@ func doBet(issueNumber string, sBets string, total int) error {
 	}
 
 	if resp.Status != 0 {
+		if resp.Status == 6 {
+			skipped = 8
+		}
+
 		return fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 

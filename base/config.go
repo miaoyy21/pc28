@@ -17,6 +17,7 @@ type config struct {
 	UnixBetting    string  `json:"unix_betting"`
 	KeyCodeBetting string  `json:"key_code_betting"`
 	Base           int     `json:"base"`
+	Sqrt           float64 `json:"sqrt"`
 	Sigma          float64 `json:"sigma"`
 	Enigma         float64 `json:"enigma"`
 }

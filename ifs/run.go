@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var skipped = 0
+
 func run() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -36,6 +38,14 @@ func run() {
 
 	log.Printf("已开奖期数【%d | %s】，开奖结果【%02d】，即将开奖期数【%d | %s】...\n", common.ThisIssueId, common.ThisIssueNumber, common.ThisResult, common.NextIssueId, common.NextIssueNumber)
 
+	// 跳过
+	if skipped > 0 {
+		log.Printf("/********************************** 系统维护期间暂停猜猜，暂时跳过【%d】期 **********************************/\n", skipped)
+
+		skipped--
+		return
+	}
+
 	// 即将开奖赔率
 	base.SleepTo(55.5)
 	nextIssue, err := getInfo(common.NextIssueId)
@@ -44,7 +54,11 @@ func run() {
 		return
 	}
 
-	log.Printf("即将开奖期数【%d | %s】，累计投注额【%d】...\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Total)
+	log.Printf("即将开奖期数【%d | %s】，波动率【%6.4f】，累计投注额【%d】...\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, nextIssue.Total)
+	if nextIssue.Sqrt < base.Config.Sqrt {
+		log.Printf("/********************************** 开奖期数【%d | %s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, base.Config.Sqrt)
+		return
+	}
 
 	bets, total := make([]int, 0, len(base.SN28)), 0
 	for _, no := range base.SN28 {
@@ -63,7 +77,7 @@ func run() {
 		if bet <= 0 {
 			log.Printf("  【   】数字【%02d】，赔率【%-8.2f %6.4f】...\n", no, nextIssue.Values[no], sigma)
 		} else {
-			log.Printf("  【 ✓ 】数字【%02d】，赔率【%-8.2f %6.4f】，投注系数【%4.2f】...\n", no, nextIssue.Values[no], sigma, delta)
+			log.Printf("  【 ✓ 】数字【%02d】，赔率【%-8.2f %6.4f】，投注系数【%6.4f】...\n", no, nextIssue.Values[no], sigma, delta)
 		}
 
 		total = total + bet
@@ -76,11 +90,11 @@ func run() {
 	}
 
 	// 记录
-	if err := doRecord(); err != nil {
-		log.Printf("doRecord() ERROR : %s", err.Error())
-		return
-	}
-	log.Printf("Recording Successful ...\n")
+	//if err := doRecord(); err != nil {
+	//	log.Printf("doRecord() ERROR : %s", err.Error())
+	//	return
+	//}
+	//log.Printf("Recording Successful ...\n")
 
 	// 执行投注
 	base.SleepTo(56.5)
