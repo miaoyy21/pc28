@@ -55,10 +55,6 @@ func run() {
 	}
 
 	log.Printf("即将开奖期数【%d | %s】，波动率【%6.4f】，累计投注额【%d】...\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, nextIssue.Total)
-	if nextIssue.Sqrt < base.Config.Sqrt {
-		log.Printf("/********************************** 开奖期数【%d | %s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, base.Config.Sqrt)
-		return
-	}
 
 	bets, total := make([]int, 0, len(base.SN28)), 0
 	for _, no := range base.SN28 {
@@ -82,6 +78,11 @@ func run() {
 
 		total = total + bet
 		bets = append(bets, bet)
+	}
+
+	if nextIssue.Sqrt < base.Config.Sqrt {
+		log.Printf("/********************************** 开奖期数【%d | %s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, base.Config.Sqrt)
+		return
 	}
 
 	sBets := make([]string, 0, len(bets))
