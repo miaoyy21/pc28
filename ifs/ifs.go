@@ -21,7 +21,7 @@ func Run() error {
 		select {
 		case <-t.C:
 			s3 := time.Now()
-			if s3.Second() >= 3 || s3.Minute()%5 != 4 {
+			if s3.Second() >= 3 || s3.Minute()%5 != 3 {
 				continue
 			}
 
@@ -33,7 +33,7 @@ func Run() error {
 			log.Printf("重载配置文件成功 ...\n")
 
 			// 执行投注
-			go run()
+			go run2()
 
 			// 暂停等待5秒
 			time.Sleep(60 * time.Second)

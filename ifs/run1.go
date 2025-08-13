@@ -11,7 +11,7 @@ import (
 
 var skipped = 0
 
-func run() {
+func run1() {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Printf("【Exception】: %s \n", err)

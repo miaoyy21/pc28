@@ -12,6 +12,8 @@ type config struct {
 	Token          string  `json:"token"`
 	UnixNormal     string  `json:"unix_normal"`
 	KeyCodeNormal  string  `json:"key_code_normal"`
+	UnixMode       string  `json:"unix_mode"`
+	KeyCodeMode    string  `json:"key_code_mode"`
 	UnixOdds       string  `json:"unix_odds"`
 	KeyCodeOdds    string  `json:"key_code_odds"`
 	UnixBetting    string  `json:"unix_betting"`
