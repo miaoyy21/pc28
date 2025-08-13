@@ -73,6 +73,11 @@ func run2() {
 		bets = append(bets, bet)
 	}
 
+	if nextIssue.Sqrt < base.Config.Sqrt {
+		log.Printf("/********************************** 开奖期数【%d | %s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, base.Config.Sqrt)
+		return
+	}
+
 	sBets := make([]string, 0, len(bets))
 	for _, bet := range bets {
 		sBets = append(sBets, fmt.Sprintf("%d", bet))
