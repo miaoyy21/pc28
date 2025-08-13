@@ -5,7 +5,7 @@ import (
 	"pc28/base"
 )
 
-func doMode(issueNumber string, sBets string, total int) error {
+func doMode(name string, sBets string) error {
 	var resp struct {
 		Status int      `json:"status"`
 		Data   struct{} `json:"data"`
@@ -23,7 +23,7 @@ func doMode(issueNumber string, sBets string, total int) error {
 		Token    string
 	}{
 		SBets: sBets,
-		Name:  issueNumber[2:],
+		Name:  name,
 
 		UserId:   base.Config.UserId,
 		DeviceId: base.Config.DeviceId,
@@ -35,10 +35,6 @@ func doMode(issueNumber string, sBets string, total int) error {
 	}
 
 	if resp.Status != 0 {
-		if resp.Status == 6 {
-			skipped = 8
-		}
-
 		return fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 

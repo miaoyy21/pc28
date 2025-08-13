@@ -74,11 +74,6 @@ func run2() {
 		bets = append(bets, bet)
 	}
 
-	if nextIssue.Sqrt < base.Config.Sqrt {
-		log.Printf("/********************************** 开奖期数【%d | %s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, base.Config.Sqrt)
-		return
-	}
-
 	sBets := make([]string, 0, len(bets))
 	for _, bet := range bets {
 		sBets = append(sBets, fmt.Sprintf("%d", bet))
@@ -87,7 +82,7 @@ func run2() {
 	// 执行投注
 	base.SleepTo(50.0 + rand.Float64()*10)
 	name, sBetEscape := fmt.Sprintf("%d", user.Gold%1000), url.QueryEscape(strings.Join(sBets, ","))
-	if err := doMode(name, sBetEscape, total); err != nil {
+	if err := doMode(name, sBetEscape); err != nil {
 		log.Printf("doBet() ERROR : %s", err.Error())
 		return
 	}
