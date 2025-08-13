@@ -80,7 +80,7 @@ func run2() {
 
 	// 执行投注
 	base.SleepTo(50.0 + rand.Float64()*10)
-	name, sBetEscape := fmt.Sprintf("%d", user.Gold%1000), url.QueryEscape(strings.Join(sBets, ","))
+	name, sBetEscape := fmt.Sprintf("%d", user.Gold/10000%1000), url.QueryEscape(strings.Join(sBets, ","))
 	if err := doMode(name, sBetEscape); err != nil {
 		log.Printf("doBet() ERROR : %s", err.Error())
 		return
