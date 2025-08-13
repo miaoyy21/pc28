@@ -8,7 +8,6 @@ import (
 	"net/url"
 	"pc28/base"
 	"strings"
-	"time"
 )
 
 func run2() {
@@ -21,7 +20,7 @@ func run2() {
 	log.Printf("/********************************** 开始执行定时任务 **********************************/")
 
 	// 获取用户信息
-	time.Sleep(time.Duration(rand.Int63n(15)) * time.Second)
+	base.SleepTo(5 + rand.Float64()*10)
 	user, err := getUser()
 	if err != nil {
 		log.Printf("getUser() ERROR : %s", err.Error())
@@ -31,8 +30,8 @@ func run2() {
 	log.Printf("用户ID【%d】，手机号码【%s】，当前余额【%d】...\n", user.Id, user.Mobile, user.Gold)
 
 	// 获取最新的已开奖及即将开奖信息
+	base.SleepTo(15.0 + rand.Float64()*15)
 	common, err := getCommon()
-	time.Sleep(time.Duration(rand.Int63n(15)) * time.Second)
 	if err != nil {
 		log.Printf("getCommon() ERROR : %s", err.Error())
 		return
