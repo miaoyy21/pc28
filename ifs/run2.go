@@ -3,6 +3,7 @@ package ifs
 import (
 	"fmt"
 	"log"
+	"math"
 	"math/rand"
 	"net/url"
 	"pc28/base"
@@ -46,7 +47,6 @@ func run2() {
 		return
 	}
 
-	log.Printf("%#v \n", nextIssue)
 	log.Printf("即将开奖期数【%d | %s】，波动率【%6.4f】，累计投注额【%d】...\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, nextIssue.Total)
 
 	bets, total := make([]int, 0, len(base.SN28)), 0
@@ -54,6 +54,12 @@ func run2() {
 		sigma := nextIssue.Values[no] / (1000 / float64(base.STDS1000[no]))
 
 		var delta float64
+		if sigma < nextIssue.Avg {
+			delta = math.Pow((sigma-nextIssue.Min)/(nextIssue.Avg-nextIssue.Min), 2)
+		} else {
+			delta = sigma * math.Pow(base.Config.Enigma, sigma-nextIssue.Avg)
+		}
+
 		//if sigma > base.Config.Sigma {
 		//	if sigma <= 1.0 {
 		//		delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
@@ -61,11 +67,12 @@ func run2() {
 		//		delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
 		//	}
 		//}
-		if sigma < nextIssue.Avg {
-			delta = (sigma - nextIssue.Min) / (nextIssue.Avg - nextIssue.Min)
-		} else {
-			delta = (nextIssue.Max - sigma) / (nextIssue.Max - nextIssue.Avg)
-		}
+
+		//if sigma < nextIssue.Avg {
+		//	delta = math.Pow((sigma-nextIssue.Min)/(nextIssue.Avg-nextIssue.Min), 2)
+		//} else {
+		//	delta = math.Pow((nextIssue.Max-sigma)/(nextIssue.Max-nextIssue.Avg), 2)
+		//}
 
 		bet := int(delta * float64(base.Config.Base) * float64(base.STDS1000[no]) / 1000)
 		if bet <= 0 {
