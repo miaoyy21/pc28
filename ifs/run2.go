@@ -3,11 +3,11 @@ package ifs
 import (
 	"fmt"
 	"log"
-	"math"
 	"math/rand"
 	"net/url"
 	"pc28/base"
 	"strings"
+	"time"
 )
 
 func run2() {
@@ -58,12 +58,14 @@ func run2() {
 			if sigma <= 1.0 {
 				delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
 			} else {
-				delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
+				//delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
+				delta = (nextIssue.Max - sigma) / (nextIssue.Max - 1.0)
 			}
 		}
 
 		bet := int(delta * float64(base.Config.Base) * float64(base.STDS1000[no]) / 1000)
 		if bet <= 0 {
+			bet = 0
 			log.Printf("  【   】数字【%02d】，赔率【%-8.2f %6.4f】...\n", no, nextIssue.Values[no], sigma)
 		} else {
 			log.Printf("  【 ✓ 】数字【%02d】，赔率【%-8.2f %6.4f】，投注系数【%6.4f】...\n", no, nextIssue.Values[no], sigma, delta)
@@ -85,11 +87,19 @@ func run2() {
 
 	// 执行投注
 	base.SleepTo(50.0 + rand.Float64()*10)
-	name, sBetEscape := fmt.Sprintf("%d", user.Gold/10000%1000), url.QueryEscape(strings.Join(sBets, ","))
-	if err := doMode(name, sBetEscape); err != nil {
+	//name, sBetEscape := fmt.Sprintf("%d%s", user.Gold/10000%1000, time.Now().Format("1504")), url.QueryEscape(strings.Join(sBets, ","))
+	//if err := doMode(name, sBetEscape); err != nil {
+	//	log.Printf("doBet() ERROR : %s", err.Error())
+	//	return
+	//}
+	//log.Printf("/********************************** 保存投注模式【%s】，设置的投注金额【%-7d】，波动率【%6.4f】 **********************************/\n", name, total, nextIssue.Sqrt)
+
+	time.Sleep(time.Duration(int64(20*rand.Float64()) * int64(time.Second)))
+	sBetEscape := url.QueryEscape(strings.Join(sBets, ","))
+	if err := doBet(common.NextIssueNumber, sBetEscape, total); err != nil {
 		log.Printf("doBet() ERROR : %s", err.Error())
 		return
 	}
 
-	log.Printf("/********************************** 保存投注模式【%s】，设置的投注金额【%-7d】，波动率【%6.4f】 **********************************/\n", name, total, nextIssue.Sqrt)
+	log.Printf("/********************************** 投注已完成，投注金额【%-7d】 **********************************/\n", total)
 }
