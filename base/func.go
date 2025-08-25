@@ -17,6 +17,11 @@ func SleepTo(s0 float64) {
 	time.Sleep(time.Second * time.Duration(s0-d0.Seconds()))
 }
 
+func Sleep(s0 float64) {
+	log.Printf("等待%.2f秒后继续执行 ... \n", s0)
+	time.Sleep(time.Duration(int64(s0) * int64(time.Second)))
+}
+
 func OfNextIssue(issue int64) string {
 	sDt := time.Now().Format("20060102")
 	sIssue := fmt.Sprintf("%d", issue+1)
