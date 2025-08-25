@@ -10,6 +10,8 @@ type Info struct {
 	Total  int
 	Values map[int]float64
 	Sqrt   float64
+	Min    float64
+	Avg    float64
 	Max    float64
 }
 
@@ -118,14 +120,20 @@ func getInfo(issueId int) (*Info, error) {
 	values[27] = float64(item.TMoney) / float64(item.C27)
 
 	var sqrt2 float64
-	var max float64
+	min, avg, max := 1.0, 0.0, 0.0
 	for no, value := range values {
-		if value*float64(base.STDS1000[no])/1000 > max {
-			max = value * float64(base.STDS1000[no]) / 1000
+		sigma := value * float64(base.STDS1000[no]) / 1000
+		if sigma > max {
+			max = sigma
 		}
 
-		sqrt2 = sqrt2 + (float64(base.STDS1000[no])/1000)*math.Pow(value*float64(base.STDS1000[no])/1000-1.0, 2)
+		if sigma < min {
+			min = sigma
+		}
+
+		avg = avg + (float64(base.STDS1000[no])/1000)*sigma
+		sqrt2 = sqrt2 + (float64(base.STDS1000[no])/1000)*math.Pow(sigma-1.0, 2)
 	}
 
-	return &Info{Total: item.TMoney, Values: values, Sqrt: math.Sqrt(sqrt2), Max: max}, nil
+	return &Info{Total: item.TMoney, Values: values, Sqrt: math.Sqrt(sqrt2), Min: min, Avg: avg, Max: max}, nil
 }

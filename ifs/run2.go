@@ -46,6 +46,7 @@ func run2() {
 		return
 	}
 
+	log.Printf("%#v \n", nextIssue)
 	log.Printf("即将开奖期数【%d | %s】，波动率【%6.4f】，累计投注额【%d】...\n", common.NextIssueId, common.NextIssueNumber, nextIssue.Sqrt, nextIssue.Total)
 
 	bets, total := make([]int, 0, len(base.SN28)), 0
@@ -53,13 +54,17 @@ func run2() {
 		sigma := nextIssue.Values[no] / (1000 / float64(base.STDS1000[no]))
 
 		var delta float64
-		if sigma > base.Config.Sigma {
-			if sigma <= 1.0 {
-				delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
-			} else {
-				//delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
-				delta = (nextIssue.Max - sigma) / (nextIssue.Max - 1.0) / 2
-			}
+		//if sigma > base.Config.Sigma {
+		//	if sigma <= 1.0 {
+		//		delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
+		//	} else {
+		//		delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
+		//	}
+		//}
+		if sigma < nextIssue.Avg {
+			delta = (sigma - nextIssue.Min) / (nextIssue.Avg - nextIssue.Min)
+		} else {
+			delta = (nextIssue.Max - sigma) / (nextIssue.Max - nextIssue.Avg)
 		}
 
 		bet := int(delta * float64(base.Config.Base) * float64(base.STDS1000[no]) / 1000)
