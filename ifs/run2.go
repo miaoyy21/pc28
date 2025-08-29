@@ -20,14 +20,14 @@ func run2() {
 	log.Printf("/********************************** 开始执行定时任务 **********************************/")
 
 	// 获取用户信息
-	base.Sleep(rand.Float64() * 30)
-	user, err := getUser()
-	if err != nil {
-		log.Printf("getUser() ERROR : %s", err.Error())
-		return
-	}
-
-	log.Printf("用户ID【%d】，手机号码【%s】，当前余额【%d】...\n", user.Id, user.Mobile, user.Gold)
+	//base.Sleep(rand.Float64() * 30)
+	//user, err := getUser()
+	//if err != nil {
+	//	log.Printf("getUser() ERROR : %s", err.Error())
+	//	return
+	//}
+	//
+	//log.Printf("用户ID【%d】，手机号码【%s】，当前余额【%d】...\n", user.Id, user.Mobile, user.Gold)
 
 	// 获取最新的已开奖及即将开奖信息
 	base.Sleep(rand.Float64() * 30)
