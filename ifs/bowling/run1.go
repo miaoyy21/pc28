@@ -7,6 +7,7 @@ import (
 	"pc28/base"
 )
 
+// 2025.09.04 01:53 2510001
 func run1() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -27,7 +28,7 @@ func run1() {
 	log.Printf("已开奖期数【%s】，开奖结果【%s】，当前余额【%d】...\n", value.ThisIssueId, value.ThisResult, value.UserEggs)
 
 	// 即将开奖赔率
-	base.Sleep(rand.Float64() * 8)
+	base.Sleep(rand.Float64() * 7.5)
 	detail, err := getDetail(value.NextIssueId)
 	if err != nil {
 		log.Printf("getDetail(%s) ERROR : %s", value.NextIssueId, err.Error())
@@ -62,7 +63,7 @@ func run1() {
 		return
 	}
 
-	base.Sleep(rand.Float64() * 8)
+	base.Sleep(rand.Float64() * 10)
 	if err := doSave(value.NextIssueId, bets); err != nil {
 		log.Printf("doSave() ERROR : %s", err.Error())
 		return
