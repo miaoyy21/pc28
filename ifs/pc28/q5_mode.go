@@ -1,22 +1,21 @@
-package ifs
+package pc28
 
 import (
 	"fmt"
-	"log"
 	"pc28/base"
+	"pc28/ifs/exec"
 )
 
-func doBet(issueNumber string, sBets string, total int) error {
+func doMode(name string, sBets string) error {
 	var resp struct {
 		Status int      `json:"status"`
 		Data   struct{} `json:"data"`
 		Msg    string   `json:"msg"`
 	}
 
-	if err := Exec("templates/bet.tpl", struct {
-		IssueNumber string
-		SBets       string
-		Total       int
+	if err := exec.Exec("templates/pc28_mode.tpl", struct {
+		SBets string
+		Name  string
 
 		UserId   string
 		DeviceId string
@@ -24,28 +23,19 @@ func doBet(issueNumber string, sBets string, total int) error {
 		KeyCode  string
 		Token    string
 	}{
-		IssueNumber: issueNumber,
-		SBets:       sBets,
-		Total:       total,
+		SBets: sBets,
+		Name:  name,
 
 		UserId:   base.Config.UserId,
 		DeviceId: base.Config.DeviceId,
-		Unix:     base.Config.UnixBetting,
-		KeyCode:  base.Config.KeyCodeBetting,
+		Unix:     base.Config.UnixMode,
+		KeyCode:  base.Config.KeyCodeMode,
 		Token:    base.Config.Token,
 	}, &resp); err != nil {
 		return err
 	}
 
 	if resp.Status != 0 {
-		if resp.Status == 6 {
-			skipped = 8
-		}
-
-		if resp.Status == 302 {
-			log.Fatalf("Fatal => 错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
-		}
-
 		return fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 

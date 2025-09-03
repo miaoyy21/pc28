@@ -1,9 +1,10 @@
-package ifs
+package pc28
 
 import (
 	"fmt"
 	"math"
 	"pc28/base"
+	"pc28/ifs/exec"
 )
 
 type Info struct {
@@ -58,7 +59,7 @@ func getInfo(issueId int) (*Info, error) {
 		Msg string `json:"msg"`
 	}
 
-	if err := Exec("templates/info.tpl", struct {
+	if err := exec.Exec("templates/pc28_info.tpl", struct {
 		IssueId int
 
 		UserId   string

@@ -1,8 +1,9 @@
-package ifs
+package pc28
 
 import (
 	"fmt"
 	"pc28/base"
+	"pc28/ifs/exec"
 )
 
 type User struct {
@@ -30,7 +31,7 @@ func getUser() (*User, error) {
 		Msg string `json:"msg"`
 	}
 
-	if err := Exec("templates/user.tpl",
+	if err := exec.Exec("templates/pc28_user.tpl",
 		struct {
 			UserId   string
 			DeviceId string

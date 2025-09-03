@@ -1,4 +1,4 @@
-package ifs
+package exec
 
 import (
 	"bytes"

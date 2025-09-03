@@ -1,8 +1,9 @@
-package ifs
+package pc28
 
 import (
 	"fmt"
 	"pc28/base"
+	"pc28/ifs/exec"
 )
 
 func doRecord() error {
@@ -13,7 +14,7 @@ func doRecord() error {
 		Msg string `json:"msg"`
 	}
 
-	if err := Exec("templates/record.tpl", struct {
+	if err := exec.Exec("templates/pc28_record.tpl", struct {
 		UserId   string
 		DeviceId string
 		Unix     string

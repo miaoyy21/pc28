@@ -1,8 +1,9 @@
-package ifs
+package pc28
 
 import (
 	"fmt"
 	"pc28/base"
+	"pc28/ifs/exec"
 	"strconv"
 )
 
@@ -46,7 +47,7 @@ func getCommon() (*Common, error) {
 		Msg string `json:"msg"`
 	}
 
-	if err := Exec("templates/common.tpl", struct {
+	if err := exec.Exec("templates/pc28_common.tpl", struct {
 		UserId   string
 		DeviceId string
 		Unix     string
