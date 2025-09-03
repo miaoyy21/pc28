@@ -1,4 +1,4 @@
-package pc28
+package bowling
 
 import (
 	"fmt"
@@ -49,13 +49,9 @@ func getDetail(issueId string) (*Detail, error) {
 		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 
-	values := make(map[int]float64)
-	items := resp.Data.MyRiddle
-	if len(items) != 1 {
-		return nil, fmt.Errorf("查询明细异常，其长度为[%d]", len(items))
-	}
-
 	var sqrt2 float64
+
+	values := make(map[int]float64)
 	for _, riddle := range resp.Data.MyRiddle {
 		num, err := strconv.Atoi(riddle.Num)
 		if err != nil {

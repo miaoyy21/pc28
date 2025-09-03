@@ -1,13 +1,10 @@
-package pc28
+package bowling
 
 import (
-	"fmt"
 	"log"
 	"math"
 	"math/rand"
-	"net/url"
 	"pc28/base"
-	"strings"
 )
 
 func run1() {
@@ -20,7 +17,7 @@ func run1() {
 	log.Printf("/********************************** 开始执行定时任务 **********************************/")
 
 	// 获取用户信息
-	base.Sleep(rand.Float64() * 10)
+	base.Sleep(rand.Float64() * 5)
 	value, err := getIndex()
 	if err != nil {
 		log.Printf("getIndex() ERROR : %s", err.Error())
@@ -30,20 +27,20 @@ func run1() {
 	log.Printf("已开奖期数【%s】，开奖结果【%s】，当前余额【%d】...\n", value.ThisIssueId, value.ThisResult, value.UserEggs)
 
 	// 即将开奖赔率
-	base.Sleep(rand.Float64() * 10)
+	base.Sleep(rand.Float64() * 8)
 	detail, err := getDetail(value.NextIssueId)
 	if err != nil {
 		log.Printf("getDetail(%s) ERROR : %s", value.NextIssueId, err.Error())
 		return
 	}
 
-	bets, total := make([]int, 0, len(base.SN28)), 0
+	bets, total := make(map[int]int), 0
 	for _, no := range base.SN28 {
 		sigma := detail.Values[no] / (1000 / float64(base.STDS1000[no]))
 
 		var delta float64
 		if sigma < 1.0 {
-			delta = (sigma - base.Config.Sigma) / (1.0 - base.Config.Sigma)
+			delta = 0
 		} else {
 			delta = sigma * math.Pow(base.Config.Enigma, sigma-1.0)
 		}
@@ -57,7 +54,7 @@ func run1() {
 		}
 
 		total = total + bet
-		bets = append(bets, bet)
+		bets[no] = bet
 	}
 
 	if detail.Sqrt < base.Config.Sqrt {
@@ -65,15 +62,9 @@ func run1() {
 		return
 	}
 
-	sBets := make([]string, 0, len(bets))
-	for _, bet := range bets {
-		sBets = append(sBets, fmt.Sprintf("%d", bet))
-	}
-
-	base.Sleep(rand.Float64() * 10)
-	sBetEscape := url.QueryEscape(strings.Join(sBets, ","))
-	if err := doBet(common.NextIssueNumber, sBetEscape, total); err != nil {
-		log.Printf("doBet() ERROR : %s", err.Error())
+	base.Sleep(rand.Float64() * 8)
+	if err := doSave(value.NextIssueId, bets); err != nil {
+		log.Printf("doSave() ERROR : %s", err.Error())
 		return
 	}
 

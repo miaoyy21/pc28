@@ -1,4 +1,4 @@
-package pc28
+package bowling
 
 import (
 	"log"
@@ -21,7 +21,7 @@ func Run() error {
 		select {
 		case <-t.C:
 			s3 := time.Now()
-			if s3.Second() <= 30 {
+			if s3.Second() < 30 || s3.Second() > 35 {
 				continue
 			}
 
@@ -36,7 +36,7 @@ func Run() error {
 			go run1()
 
 			// 暂停等待5秒
-			time.Sleep(40 * time.Second)
+			time.Sleep(45 * time.Second)
 		}
 	}
 }

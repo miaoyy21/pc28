@@ -1,9 +1,7 @@
 package ifs
 
-import (
-	"pc28/ifs/pc"
-)
+import "pc28/ifs/bowling"
 
 func Run() error {
-	return pc.Run()
+	return bowling.Run()
 }
