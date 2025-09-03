@@ -64,8 +64,8 @@ func getDetail(issueId string) (*Detail, error) {
 		}
 
 		values[num] = rate
-		sqrt2 = sqrt2 + (float64(base.STDS1000[num])/1000)*math.Pow(rate*(float64(base.STDS1000[num])/1000)-1.0, 2)
+		sqrt2 = sqrt2 + (float64(base.STDS1000[num])/1000)*math.Pow(rate/(1000/float64(base.STDS1000[num]))-1.0, 2)
 	}
 
-	return &Detail{Sqrt: sqrt2, Values: values}, nil
+	return &Detail{Sqrt: math.Sqrt(sqrt2), Values: values}, nil
 }
