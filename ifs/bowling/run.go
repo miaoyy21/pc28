@@ -2,7 +2,6 @@ package pc28
 
 import (
 	"log"
-	"math/rand"
 	"pc28/base"
 	"time"
 )
@@ -22,19 +21,7 @@ func Run() error {
 		select {
 		case <-t.C:
 			s3 := time.Now()
-			if s3.Second() >= 3 {
-				continue
-			} else if s3.Minute()%5 == 1 {
-				base.Sleep(rand.Float64() * 30)
-				user, err := getUser()
-				if err != nil {
-					log.Printf("getUser() ERROR : %s", err.Error())
-					continue
-				}
-
-				log.Printf("用户ID【%d】，手机号码【%s】，当前余额【%d】...\n", user.Id, user.Mobile, user.Gold)
-				continue
-			} else if s3.Minute()%5 == 0 || s3.Minute()%5 == 2 || s3.Minute()%5 == 4 {
+			if s3.Second() <= 30 {
 				continue
 			}
 
@@ -46,10 +33,10 @@ func Run() error {
 			log.Printf("重载配置文件成功 ...\n")
 
 			// 执行投注
-			go run2()
+			go run1()
 
 			// 暂停等待5秒
-			time.Sleep(60 * time.Second)
+			time.Sleep(40 * time.Second)
 		}
 	}
 }

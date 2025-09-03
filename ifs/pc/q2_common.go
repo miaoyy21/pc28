@@ -1,4 +1,4 @@
-package pc28
+package pc
 
 import (
 	"fmt"
