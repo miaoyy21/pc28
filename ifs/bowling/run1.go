@@ -38,7 +38,7 @@ func run1() {
 
 	// 胜率
 	if totalBets > 0 {
-		rateBets = float64(winBets) / float64(totalBets)
+		rateBets = float64(winBets*100) / float64(totalBets)
 	}
 
 	log.Printf("已开奖期数【%s】，开奖结果【%02d】，当前余额【%d】，胜率【%d/%d  %4.2f%%】...\n", value.ThisIssueId, value.ThisResult, value.UserEggs, winBets, totalBets, rateBets)
