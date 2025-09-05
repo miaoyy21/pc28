@@ -34,7 +34,10 @@ func run1() {
 		if ok && vBets > 0 {
 			winBets++
 		}
+	}
 
+	// 胜率
+	if totalBets > 0 {
 		rateBets = float64(winBets) / float64(totalBets)
 	}
 
