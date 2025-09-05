@@ -7,7 +7,10 @@ import (
 	"pc28/base"
 )
 
-// 2025.09.04 01:53 2510001
+var preBets map[int]int
+var totalBets int
+var winBets int
+
 func run1() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -25,7 +28,17 @@ func run1() {
 		return
 	}
 
-	log.Printf("已开奖期数【%s】，开奖结果【%s】，当前余额【%d】...\n", value.ThisIssueId, value.ThisResult, value.UserEggs)
+	var rateBets float64
+	if len(preBets) > 0 {
+		vBets, ok := preBets[value.ThisResult]
+		if ok && vBets > 0 {
+			winBets++
+		}
+
+		rateBets = float64(winBets) / float64(totalBets)
+	}
+
+	log.Printf("已开奖期数【%s】，开奖结果【%02d】，当前余额【%d】，胜率【%d/%d  %4.2f%%】...\n", value.ThisIssueId, value.ThisResult, value.UserEggs, winBets, totalBets, rateBets)
 
 	// 即将开奖赔率
 	base.Sleep(rand.Float64() * 7.5)
@@ -59,6 +72,7 @@ func run1() {
 	}
 
 	if detail.Sqrt < base.Config.Sqrt {
+		preBets = make(map[int]int)
 		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", value.NextIssueId, detail.Sqrt, base.Config.Sqrt)
 		return
 	}
@@ -69,5 +83,7 @@ func run1() {
 		return
 	}
 
+	preBets = bets
+	totalBets++
 	log.Printf("/********************************** 投注已完成，投注金额【%-7d】 **********************************/\n", total)
 }

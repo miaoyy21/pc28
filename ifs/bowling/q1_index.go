@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"pc28/base"
 	"pc28/ifs/exec"
+	"strconv"
 )
 
 type Index struct {
 	UserEggs int
 
 	ThisIssueId string
-	ThisResult  string
+	ThisResult  int
 
 	NextIssueId    string
 	NextIssueMoney int
@@ -58,10 +59,15 @@ func getIndex() (*Index, error) {
 		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 
+	result, err := strconv.Atoi(resp.Data.Plist[0].LResult)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Index{
 		UserEggs:       resp.Data.Info[0].UserEggs,
 		ThisIssueId:    resp.Data.Plist[0].Issue,
-		ThisResult:     resp.Data.Plist[0].LResult,
+		ThisResult:     result,
 		NextIssueId:    resp.Data.KList[0].Issue,
 		NextIssueMoney: resp.Data.KList[0].TMoney,
 	}, nil
