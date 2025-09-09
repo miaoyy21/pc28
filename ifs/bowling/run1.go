@@ -83,7 +83,7 @@ func run1() {
 		return
 	}
 
-	if s9.Second() > 50 || s9.Second() < 30 {
+	if s9.Second() > 45 || s9.Second() < 30 {
 		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】但时间秒数【%d】，异常终止本期投注 🍌 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, s9.Second())
 		return
 	}
