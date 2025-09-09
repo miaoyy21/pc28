@@ -9,6 +9,7 @@ import (
 )
 
 type Detail struct {
+	Avg    float64
 	Sqrt   float64
 	Values map[int]float64
 }
@@ -49,7 +50,7 @@ func getDetail(issueId string) (*Detail, error) {
 		return nil, fmt.Errorf("错误代码 [%d] ，错误信息[%s]", resp.Status, resp.Msg)
 	}
 
-	var sqrt2 float64
+	var avg, sqrt2 float64
 
 	values := make(map[int]float64)
 	for _, riddle := range resp.Data.MyRiddle {
@@ -64,8 +65,9 @@ func getDetail(issueId string) (*Detail, error) {
 		}
 
 		values[num] = rate
+		avg = avg + (float64(base.STDS1000[num])/1000)*rate/(1000/float64(base.STDS1000[num]))
 		sqrt2 = sqrt2 + (float64(base.STDS1000[num])/1000)*math.Pow(rate/(1000/float64(base.STDS1000[num]))-1.0, 2)
 	}
 
-	return &Detail{Sqrt: math.Sqrt(sqrt2), Values: values}, nil
+	return &Detail{Avg: avg, Sqrt: math.Sqrt(sqrt2), Values: values}, nil
 }

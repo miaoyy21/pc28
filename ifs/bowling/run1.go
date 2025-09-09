@@ -74,9 +74,10 @@ func run1() {
 		bets[no] = bet
 	}
 
-	if detail.Sqrt < base.Config.Sqrt {
-		preBets = make(map[int]int)
-		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", value.NextIssueId, detail.Sqrt, base.Config.Sqrt)
+	preBets = make(map[int]int)
+
+	if detail.Sqrt < base.Config.Sqrt || detail.Sqrt < 1.0 {
+		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, base.Config.Sqrt)
 		return
 	}
 
@@ -88,5 +89,5 @@ func run1() {
 
 	preBets = bets
 	totalBets++
-	log.Printf("/********************************** 投注已完成，当前波动率【%6.4f】，本期投注金额【%-7d】 **********************************/\n", detail.Sqrt, total)
+	log.Printf("/********************************** 投注已完成，当前波动率【%6.4f %6.4f】，本期投注金额【%-7d】 **********************************/\n", detail.Avg, detail.Sqrt, total)
 }
