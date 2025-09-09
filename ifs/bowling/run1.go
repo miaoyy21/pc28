@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/rand"
 	"pc28/base"
+	"time"
 )
 
 var preBets map[int]int
@@ -74,10 +75,16 @@ func run1() {
 		bets[no] = bet
 	}
 
-	preBets = make(map[int]int)
+	s9 := time.Now()
 
-	if detail.Sqrt < base.Config.Sqrt || detail.Sqrt < 1.0 {
-		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】小于设定值【%6.4f】，本期不进行投注 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, base.Config.Sqrt)
+	preBets = make(map[int]int)
+	if detail.Sqrt < base.Config.Sqrt || detail.Avg < 1.0 {
+		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】小于设定值【%6.4f】，本期不进行投注 🍎 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, base.Config.Sqrt)
+		return
+	}
+
+	if s9.Second() > 50 || s9.Second() < 30 {
+		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】小于设定值【%6.4f】，异常终止本期投注 🍌 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, base.Config.Sqrt)
 		return
 	}
 
@@ -89,5 +96,5 @@ func run1() {
 
 	preBets = bets
 	totalBets++
-	log.Printf("/********************************** 投注已完成，当前波动率【%6.4f %6.4f】，本期投注金额【%-7d】 **********************************/\n", detail.Avg, detail.Sqrt, total)
+	log.Printf("/********************************** 投注已完成，当前波动率【%6.4f %6.4f】，本期投注金额【%-7d】👌 **********************************/\n", detail.Avg, detail.Sqrt, total)
 }
