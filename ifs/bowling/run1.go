@@ -78,17 +78,17 @@ func run1() {
 	s9 := time.Now()
 
 	preBets = make(map[int]int)
-	if detail.Sqrt < base.Config.Sqrt || detail.Avg < 1.0 {
-		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】小于设定值【%6.4f %6.4f】，本期不进行投注 🍎 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, 1.0, base.Config.Sqrt)
-		return
-	}
-
-	if s9.Second() > 45 || s9.Second() < 30 {
-		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】但时间秒数【%d】，异常终止本期投注 🍌 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, s9.Second())
+	if detail.Sqrt < base.Config.Sqrt || detail.Avg < 0.99 {
+		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】小于设定值【%6.4f %6.4f】，本期不进行投注 🍎 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, 0.99, base.Config.Sqrt)
 		return
 	}
 
 	base.Sleep(rand.Float64() * 10)
+	if s9.Second() > 54 || s9.Second() < 30 {
+		log.Printf("/********************************** 开奖期数【%s】的波动率【%6.4f %6.4f】但时间秒数【%d】，异常终止本期投注 🍌 **********************************/\n", value.NextIssueId, detail.Avg, detail.Sqrt, s9.Second())
+		return
+	}
+
 	if err := doSave(value.NextIssueId, bets); err != nil {
 		log.Printf("doSave() ERROR : %s", err.Error())
 		return
