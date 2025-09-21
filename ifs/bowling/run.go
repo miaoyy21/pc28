@@ -21,7 +21,7 @@ func Run() error {
 		select {
 		case <-t.C:
 			s3 := time.Now()
-			if s3.Second() < 30 || s3.Second() > 35 {
+			if s3.Second() < 30 || s3.Second() > 33 {
 				continue
 			}
 
